@@ -351,8 +351,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         if (esMenor && datos.nombreAcudiente) {
             declarante = `yo, ${datos.nombreAcudiente}, en mi calidad de acudiente de ${datos.nombreCompleto},`;
         }
-
-        declaracionFinalLabel.innerHTML = `Declaro y doy fe de que ${declarante} he leído y comprendido este documento durante una sesión <strong>${modalidad}</strong> con el psicólogo, donde se me ha garantizado un espacio para hacer preguntas, las cuales han sido respondidas a mi entera satisfacción. Al marcar esta casilla, acepto todos los términos descritos anteriormente.`;
+        
+        // AJUSTE: Se actualiza el texto para incluir el nombre de la psicóloga.
+        declaracionFinalLabel.innerHTML = `Declaro y doy fe de que ${declarante} he leído y comprendido este documento durante una sesión <strong>${modalidad}</strong> con la Psicóloga Marcela Villegas Gallego, donde se me ha garantizado un espacio para hacer preguntas, las cuales han sido respondidas a mi entera satisfacción. Al marcar esta casilla, acepto todos los términos descritos anteriormente.`;
     }
 
     modalidadRadios.forEach(radio => {
