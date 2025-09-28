@@ -26,7 +26,6 @@
             border-color: #003366;
             box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.2);
         }
-        /* Estilos para el Banner de Cookies */
         #cookieBanner {
             position: fixed;
             bottom: 0;
@@ -45,7 +44,8 @@
 
     <header class="bg-white shadow-sm">
         <div class="container mx-auto px-6 py-2">
-            <img src="logoprincipal.png" alt="Marcela Villegas" class="h-11 w-auto">
+            <!-- AJUSTE: Se usa un placeholder para el logo. Reemplaza la URL en 'src' con la URL de tu logo en GitHub. -->
+            <img src="https://placehold.co/250x60/ffffff/003366?text=Logo+Principal&font=poppins" alt="Logo Principal" class="h-11 w-auto">
         </div>
     </header>
 
@@ -137,6 +137,7 @@
                         <label for="aceptoTerminos" id="declaracionFinalLabel" class="ml-3 block text-sm font-medium text-gray-500">Por favor, selecciona primero la modalidad de la sesión.</label>
                     </div>
                 </div>
+
                 <div id="consent-error" class="text-red-600 text-center font-semibold hidden mt-4">Debes seleccionar una modalidad y aceptar la declaración para poder continuar.</div>
                 <div class="text-center mt-6"><button type="button" id="continueToSignatureButton" class="btn-brand" disabled>Continuar a la Firma</button></div>
             </div>
@@ -145,15 +146,18 @@
 
     <footer class="bg-[#1a1a1a] text-white py-8 mt-16">
         <div class="container mx-auto text-center">
-             <p class="text-gray-400">&copy; 2025 Jorge Arango Castaño - Caminos del Ser. Todos los derechos reservados.</p>
-            <div class="mt-4"><a href="https://www.caminosdelser.co/politicadatos.html" target="_blank" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Política de tratamiento de datos</a><span class="text-gray-600 mx-2">|</span><a href="login.html" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Acceso Terapeuta</a></div>
+             <!-- AJUSTE: Se actualiza el texto de copyright -->
+             <p class="text-gray-400">&copy; 2025 Marcela Villegas Gallego - MétodoYuen / Acupuntura / Psicología. Todos los derechos reservados.</p>
+            <!-- AJUSTE: Se actualiza el enlace a la política de datos -->
+            <div class="mt-4"><a href="politicasdatosmvg.pdf" target="_blank" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Política de tratamiento de datos</a><span class="text-gray-600 mx-2">|</span><a href="login.html" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Acceso Terapeuta</a></div>
         </div>
     </footer>
     
     <div id="cookieBanner" class="bg-[#003366] text-white p-4 flex flex-col md:flex-row items-center justify-center space-y-3 md:space-y-0 md:space-x-6 shadow-2xl">
         <p class="text-sm text-center">
             Utilizamos cookies y datos de sesión para garantizar la funcionalidad del formulario y mejorar tu experiencia. Al continuar, aceptas nuestra
-            <a href="http://www.caminosdelser.co/politicadatos.html" target="_blank" class="text-white font-semibold underline hover:text-gray-200">Política de tratamiento de datos.</a>
+            <!-- AJUSTE: Se actualiza el enlace a la política de datos -->
+            <a href="politicasdatosmvg.pdf" target="_blank" class="text-white font-semibold underline hover:text-gray-200">Política de tratamiento de datos.</a>
         </p>
         <button id="acceptCookies" class="bg-white text-[#003366] font-semibold py-2 px-6 rounded-full hover:bg-gray-200 transition-colors text-sm flex-shrink-0">Aceptar</button>
     </div>
@@ -178,11 +182,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     const cookieBanner = document.getElementById('cookieBanner');
     const acceptCookiesButton = document.getElementById('acceptCookies');
     
-    // INICIO DE CAMBIOS JS
     const modalidadRadios = document.querySelectorAll('input[name="modalidadSesion"]');
     const declaracionFinalLabel = document.getElementById('declaracionFinalLabel');
     const aceptoTerminosCheckbox = document.getElementById('aceptoTerminos');
-    // FIN DE CAMBIOS JS
 
     let geodata = {};
 
@@ -328,7 +330,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.getElementById('costosTexto').textContent = esMenor ? 'Me comprometo como acudiente del (la) paciente menor de edad, a cubrir todos los gastos económicos en que se incurra con motivo de la atención que recibirá, habiendo recibido la información de forma clara y oportuna y habiendo tenido la oportunidad de aceptar o rechazar dichas atenciones psicológicas y los costos asociados.' : 'Me comprometo a cubrir todos los gastos económicos en que se incurra con motivo de la atención que recibiré, habiendo recibido la información de forma clara y oportuna y habiendo tenido la oportunidad de aceptar o rechazar dichas atenciones psicológicas y los costos asociados.';
     });
 
-    // --- INICIO DE LÓGICA ACTUALIZADA ---
     function updateDeclaracionFinal() {
         const formData = new FormData(demographicsForm);
         const datos = Object.fromEntries(formData.entries());
@@ -376,7 +377,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         const formData = new FormData(demographicsForm);
         const datosDemograficos = Object.fromEntries(formData.entries());
         
-        // Añadimos el nuevo dato de modalidad
         datosDemograficos.modalidadSesion = modalidadSeleccionada.value;
 
         try {
@@ -388,8 +388,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             document.getElementById('consent-error').classList.remove('hidden');
         }
     });
-    // --- FIN DE LÓGICA ACTUALIZADA ---
 });
 </script>
 </body>
 </html>
+
