@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     eyeSlashedIcon.classList.toggle('hidden');
   });
 
-  // La lógica de envío del formulario sigue aquí (sin cambio)
+  // Lógica para el envío del formulario de login
   document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const passwordInput = document.getElementById('password');
