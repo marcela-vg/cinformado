@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso a Terapeuta - CInformado</title>
+    <title>Acceso a Terapeuta - Marcela Villegas G.</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,11 +19,6 @@
         }
         main {
             flex-grow: 1;
-        }
-        h1, h2, h3 {
-            font-family: 'Poppins', sans-serif;
-            color: #1a1a1a;
-            font-weight: 700;
         }
         .btn-brand {
             background-color: #003366;
@@ -64,7 +59,7 @@
     <header class="bg-white shadow-sm">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="index.html">
-                <img src="/logoprincipal.png" alt="Logo Principal" class="h-11 w-auto">
+                <img src="/logoprincipal.png" alt="Logo Marcela Villegas" class="h-11 w-auto">
             </a>
         </div>
     </header>
@@ -77,10 +72,23 @@
                     <p class="text-gray-500 mt-2">Ingresa tus credenciales para continuar.</p>
                 </div>
                 <form id="loginForm">
+                    <!-- INICIO DE CAMBIOS -->
                     <div class="mb-6">
                         <label for="password" class="block mb-2 font-medium">Contraseña</label>
-                        <input type="password" id="password" class="input-styled" required>
+                        <div class="relative">
+                            <input type="password" id="password" class="input-styled pr-10" required>
+                            <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none">
+                                <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                                <svg id="eye-slashed-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064-7 9.542-7 .847 0 1.67.127 2.454.364m5.034 2.118a10.027 10.027 0 011.056 2.518C20.268 9.057 16.477 12 12 12a10.027 10.027 0 01-2.008-.215M17.156 5.844a8.03 8.03 0 01-1.332-1.332m-1.332-1.332L3 21" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
+                    <!-- FIN DE CAMBIOS -->
                     <div id="errorMessage" class="text-red-600 text-center mb-4 hidden"></div>
                     <button type="submit" class="btn-brand w-full">Ingresar al Portal</button>
                 </form>
@@ -94,8 +102,8 @@
         </div>
     </footer>
 
-    <!-- Se elimina la lógica de validación de aquí y se enlaza al archivo externo -->
     <script src="login.js" defer></script>
 
 </body>
 </html>
+
