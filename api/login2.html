@@ -1,0 +1,56 @@
+<!-- Input de contraseña con botón para toggle (corregir atributo type del botón y agregar IDs correctos) -->
+<div class="relative">
+  <input
+    type="password"
+    name="password"
+    id="password"
+    class="input-styled pr-10"
+    required
+  />
+  <button
+    type="button" <!-- Cambiado para evitar submit involuntario -->
+    id="togglePassword" <!-- Aseguramos id="togglePassword" -->
+    class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none"
+    aria-label="Mostrar contraseña"
+  >
+    <!-- Icono ojo visible -->
+    <svg
+      id="eye-icon" <!-- Aseguramos id="eye-icon" -->
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-5 w-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+      />
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+      />
+    </svg>
+
+    <!-- Icono ojo tachado (oculto inicialmente) -->
+    <svg
+      id="eye-slashed-icon" <!-- Aseguramos id="eye-slashed-icon" -->
+      xmlns="http://www.w3.org/2000/svg"
+      class="hidden h-5 w-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064-7 9.542-7 .847 0 1.67.127 2.454.364m5.034 2.118a10.027 10.027 0 011.056 2.518C20.268 9.057 16.477 12 12 12a10.027 10.027 0 01-2.008-.215M17.156 5.844a8.03 8.03 0 01-1.332-1.332m-1.332-1.332L3 21"
+      />
+    </svg>
+  </button>
+</div>
