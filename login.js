@@ -49,7 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok && data.success) {
                     console.log('Cliente: Autenticación exitosa. Redirigiendo...');
+                    // --- LA CORRECCIÓN CRÍTICA ESTÁ AQUÍ ---
+                    // Guardamos el estado de autenticación con la clave correcta ('consultorAuth')
+                    // que la página 'portal-consentimientos.html' espera encontrar.
                     sessionStorage.setItem('consultorAuth', 'true'); 
+                    
                     window.location.href = 'portal-consentimientos.html';
                 } else {
                     console.warn('Cliente: Falla en la autenticación.', data);
@@ -69,3 +73,4 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Cliente: CRÍTICO - No se pudo encontrar el elemento del formulario con id="loginForm".');
     }
 });
+
