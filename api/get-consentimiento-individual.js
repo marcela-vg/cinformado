@@ -1,22 +1,19 @@
 import { db } from '../lib/firebaseAdmin.js';
-import { verifyAuth } from '../lib/verifyAuth.js'; // Importamos nuestro manual de seguridad.
 
 export default async function handler(request, response) {
     if (request.method !== 'GET') {
         return response.status(405).json({ message: 'Método no permitido.' });
     }
 
-    // --- INICIO DEL BLINDAJE DE SEGURIDAD ---
-    // 1. Llamamos a nuestro guardia para que verifique el token.
-    const authResult = verifyAuth(request);
+    // --- AÑADIMOS EL MISMO GUARDIÁN DE SEGURIDAD ---
+    const providedSecret = request.headers['x-auth-secret'];
+    const serverSecret = process.env.LOGIN_PASSWORD;
 
-    // 2. Si el guardia nos dice que no está autenticado, denegamos el acceso inmediatamente.
-    if (!authResult.authenticated) {
-        return response.status(401).json({ message: 'Acceso no autorizado.', error: authResult.error });
+    if (!providedSecret || providedSecret !== serverSecret) {
+        console.warn("Acceso denegado a /api/get-consentimiento-individual.");
+        return response.status(401).json({ message: 'Acceso no autorizado.' });
     }
-    // --- FIN DEL BLINDAJE DE SEGURIDAD ---
 
-    // Si llegamos a este punto, significa que el token es válido.
     try {
         const { id } = request.query;
         if (!id) {
