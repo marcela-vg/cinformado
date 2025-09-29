@@ -11,11 +11,15 @@
         h1 { font-family: 'Poppins', sans-serif; color: #1a1a1a; font-weight: 700; }
         .card { background-color: white; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
         .consent-item { 
-            transition: background-color 0.2s ease-in-out, opacity 0.5s ease;
+            transition: background-color 0.2s ease-in-out, opacity 0.5s ease, transform 0.5s ease;
             border-bottom: 1px solid #e5e7eb;
         }
         .consent-item:hover { background-color: #fafafa; }
         .consent-item:last-child { border-bottom: none; }
+        .consent-item.deleting {
+            opacity: 0;
+            transform: translateX(-100%);
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -38,69 +42,97 @@
                 <div id="loading" class="text-center py-10">
                     <p class="text-lg">Cargando consentimientos...</p>
                 </div>
-                <div id="consentList" class="hidden">
-                    </div>
-                 <div id="noConsents" class="hidden text-center py-10">
+                <div id="consentList" class="hidden"></div>
+                <div id="noConsents" class="hidden text-center py-10">
                     <p class="text-lg text-gray-500">Aún no se han recibido consentimientos firmados.</p>
                 </div>
+                <div id="errorMessage" class="hidden text-center py-10 bg-red-50 text-red-700 rounded-lg"></div>
             </div>
         </div>
     </main>
+    
+    <!-- Modal de Confirmación para Eliminar -->
+    <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white rounded-lg p-8 max-w-sm w-full shadow-xl">
+            <h2 class="text-xl font-bold mb-4">Confirmar Eliminación</h2>
+            <p class="text-gray-600 mb-6">¿Estás seguro de que deseas eliminar este consentimiento de forma permanente? Esta acción no se puede deshacer.</p>
+            <div class="flex justify-end space-x-4">
+                <button id="cancelDelete" class="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium">Cancelar</button>
+                <button id="confirmDelete" class="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white font-medium">Sí, Eliminar</button>
+            </div>
+        </div>
+    </div>
 
     <script>
+        // --- INICIO DE LA LÓGICA CORREGIDA ---
+        let consentIdToDelete = null;
+
         document.addEventListener('DOMContentLoaded', () => {
-            const isAuthenticated = sessionStorage.getItem('consultorAuth');
-            
-            if (isAuthenticated !== 'true') {
+            console.log("Portal: Documento cargado y listo.");
+
+            // Verificación de seguridad
+            const apiSecret = sessionStorage.getItem('apiSecret');
+            const isAuthenticated = sessionStorage.getItem('consultorAuth') === 'true';
+            if (!isAuthenticated || !apiSecret) {
+                console.warn("Portal: No autenticado. Redirigiendo a login.");
                 window.location.href = 'login.html';
                 return;
             }
 
+            // Lógica de Logout
             document.getElementById('logoutButton').addEventListener('click', () => {
-                sessionStorage.removeItem('consultorAuth');
-                sessionStorage.removeItem('apiSecret'); // Limpiamos el pase al salir
+                sessionStorage.clear();
                 window.location.href = 'login.html';
             });
 
-            fetchConsentimientos();
-        });
+            // Iniciar la carga de datos
+            fetchConsentimientos(apiSecret);
 
-        async function fetchConsentimientos() {
+            // Configuración de los botones del Modal
+            const deleteModal = document.getElementById('deleteModal');
+            const confirmDeleteBtn = document.getElementById('confirmDelete');
+            const cancelDeleteBtn = document.getElementById('cancelDelete');
+
+            cancelDeleteBtn.addEventListener('click', () => {
+                console.log("Portal: Eliminación cancelada por el usuario.");
+                deleteModal.classList.add('hidden');
+                consentIdToDelete = null;
+            });
+
+            confirmDeleteBtn.addEventListener('click', () => {
+                console.log(`Portal: Confirmación de eliminación recibida para el ID: ${consentIdToDelete}`);
+                if (consentIdToDelete) {
+                    deleteConsent(consentIdToDelete, apiSecret);
+                } else {
+                    console.error("Portal: Se intentó confirmar la eliminación pero no había un ID seleccionado.");
+                }
+            });
+        });
+        
+        // Esta función ahora es global para ser accesible desde el onclick
+        function promptDelete(id) {
+            console.log(`Portal: Solicitud para eliminar el ID: ${id}`);
+            consentIdToDelete = id;
+            document.getElementById('deleteModal').classList.remove('hidden');
+        }
+
+        async function fetchConsentimientos(secret) {
+            // (El contenido de esta función no cambia)
             const loadingDiv = document.getElementById('loading');
             const consentListDiv = document.getElementById('consentList');
             const noConsentsDiv = document.getElementById('noConsents');
-
+            const errorMessageDiv = document.getElementById('errorMessage');
             try {
-                // Obtenemos el "pase de acceso" de la sesión del navegador.
-                const secret = sessionStorage.getItem('apiSecret');
-                if (!secret) {
-                    // Si no hay pase, la sesión es inválida.
-                    window.location.href = 'login.html';
-                    return;
-                }
-
-                // Enviamos el "pase de acceso" en los encabezados de la solicitud.
-                const response = await fetch('/api/get-consentimientos', {
-                    headers: { 'X-Auth-Secret': secret }
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Error al conectar con el servidor.');
-                }
-                
+                const response = await fetch('/api/get-consentimientos', { headers: { 'X-Auth-Secret': secret } });
+                if (!response.ok) { const errorData = await response.json(); throw new Error(errorData.message || 'Error del servidor.'); }
                 const consentimientos = await response.json();
                 loadingDiv.classList.add('hidden');
-
                 if (consentimientos.length === 0) {
                     noConsentsDiv.classList.remove('hidden');
                 } else {
                     let html = '<div class="divide-y divide-gray-200">';
                     consentimientos.forEach(consent => {
-                        const fecha = new Date(consent.fecha).toLocaleString('es-CO', { 
-                            day: '2-digit', month: 'long', year: 'numeric',
-                            hour: '2-digit', minute: '2-digit'
-                        });
+                        const fecha = new Date(consent.fecha).toLocaleString('es-CO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
                         html += `
                             <div class="consent-item p-4 flex justify-between items-center" id="consent-item-${consent.id}">
                                 <a href="detalle-consentimiento.html?id=${consent.id}" class="flex-grow">
@@ -110,32 +142,61 @@
                                         <p class="text-xs text-gray-400 mt-1">Firmado el: ${fecha}</p>
                                     </div>
                                 </a>
-                                <button onclick="deleteConsent('${consent.id}')" class="ml-4 p-2 rounded-full hover:bg-red-100 transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
+                                <button onclick="promptDelete('${consent.id}')" class="ml-4 p-2 rounded-full hover:bg-red-100 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                                 </button>
-                            </div>
-                        `;
+                            </div>`;
                     });
                     html += '</div>';
-                    
                     consentListDiv.innerHTML = html;
                     consentListDiv.classList.remove('hidden');
                 }
-
             } catch (error) {
-                loadingDiv.innerHTML = `<p class="text-lg text-red-600">Error al cargar los consentimientos: ${error.message}</p>`;
+                console.error(error);
+                loadingDiv.classList.add('hidden');
+                errorMessageDiv.textContent = `Error al cargar los consentimientos: ${error.message}`;
+                errorMessageDiv.classList.remove('hidden');
             }
         }
 
-        async function deleteConsent(id) {
-            if (!confirm('¿Estás seguro de que deseas eliminar este consentimiento de forma permanente? Esta acción no se puede deshacer.')) {
-                return;
+        async function deleteConsent(id, secret) {
+            console.log(`Portal: Enviando solicitud DELETE a la API para el ID: ${id}`);
+            const errorMessageDiv = document.getElementById('errorMessage');
+            const confirmDeleteBtn = document.getElementById('confirmDelete');
+            
+            confirmDeleteBtn.disabled = true;
+            confirmDeleteBtn.textContent = 'Eliminando...';
+
+            try {
+                const response = await fetch(`/api/eliminar-consentimiento?id=${id}`, {
+                    method: 'DELETE',
+                    headers: { 'X-Auth-Secret': secret }
+                });
+
+                if (response.ok) {
+                    console.log(`Portal: Eliminación exitosa para el ID: ${id}`);
+                    const consentItem = document.getElementById(`consent-item-${id}`);
+                    if (consentItem) {
+                        consentItem.classList.add('deleting');
+                        setTimeout(() => consentItem.remove(), 500);
+                    }
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'No se pudo eliminar.');
+                }
+            } catch (error) {
+                console.error('Portal: Error durante la eliminación:', error);
+                errorMessageDiv.textContent = `Error al eliminar: ${error.message}`;
+                errorMessageDiv.classList.remove('hidden');
+                setTimeout(() => errorMessageDiv.classList.add('hidden'), 5000);
+            } finally {
+                document.getElementById('deleteModal').classList.add('hidden');
+                consentIdToDelete = null;
+                confirmDeleteBtn.disabled = false;
+                confirmDeleteBtn.textContent = 'Sí, Eliminar';
             }
-             // Implementar la llamada a la API de eliminación si es necesario.
-            console.log("Función de eliminar llamada para el ID:", id);
         }
+        // --- FIN DE LA LÓGICA CORREGIDA ---
     </script>
 </body>
 </html>
