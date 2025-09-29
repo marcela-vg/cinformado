@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consentimiento Informado Digital - Psic. Marcela Villegas</title>
+    <title>Consentimiento Informado Digital - Caminos del Ser</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,6 +26,7 @@
             border-color: #003366;
             box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.2);
         }
+        /* Estilos para el Banner de Cookies */
         #cookieBanner {
             position: fixed;
             bottom: 0;
@@ -44,8 +45,7 @@
 
     <header class="bg-white shadow-sm">
         <div class="container mx-auto px-6 py-2">
-            <!-- AJUSTE: Se añade una barra (/) al inicio para crear una ruta absoluta desde la raíz del sitio. -->
-            <img src="/logoprincipal.png" alt="Logo Principal" class="h-11 w-auto">
+            <img src="logoprincipal.png" alt="Caminos del Ser Logo" class="h-11 w-auto">
         </div>
     </header>
 
@@ -106,39 +106,31 @@
                     <p id="consentimientoIntro"></p>
                     <div class="space-y-2"><h4 class="font-bold">2.1 Confidencialidad:</h4><p id="confidencialidadTexto"></p></div>
                     <div class="space-y-2"><h4 class="font-bold">2.2 Propósito de la Intervención:</h4><p>El propósito es realizar una evaluación y/o intervención psicológica, la cual se llevará a cabo utilizando técnicas y enfoques validados por la psicología como ciencia.</p></div>
-                    <div class="space-y-2">
-                        <h4 class="font-bold">2.3 Naturaleza del Proceso:</h4>
-                        <p>Se me ha informado que el proceso puede incluir entrevistas, pruebas psicométricas y tareas inter-sesión, y que mi participación activa es fundamental para el éxito del mismo. <strong class="font-semibold">Entiendo y acepto que las sesiones podrán ser presenciales o virtuales según se acuerde previamente, garantizando en ambos casos el cumplimiento de la ley.</strong></p>
-                    </div>
+                    <div class="space-y-2"><h4 class="font-bold">2.3 Naturaleza del Proceso:</h4><p>Se me ha informado que el proceso puede incluir entrevistas, pruebas psicométricas y tareas inter-sesión, y que mi participación activa es fundamental para el éxito del mismo.</p></div>
                     <div class="space-y-2"><h4 class="font-bold">2.4 Proceso de evaluación:</h4><p id="evaluacionTexto"></p></div>
                     <div class="space-y-2"><h4 class="font-bold">2.5 Costos económicos:</h4><p id="costosTexto"></p></div>
                     <div class="space-y-2"><h4 class="font-bold">2.6 Tratamiento de Datos:</h4><p>Autorizo el tratamiento de mis datos personales de acuerdo con la Ley 1581 de 2012 y la política de tratamiento de datos de "Caminos del Ser", la cual he podido consultar.</p></div>
                 </div>
 
+                <!-- INICIO DE CAMBIOS -->
                 <div class="mt-8 pt-6 border-t">
-                    <h3 class="text-lg font-semibold mb-3">Modalidad de esta Sesión de Consentimiento</h3>
-                    <p class="text-sm text-gray-600 mb-4">Por favor, selecciona cómo se está llevando a cabo esta sesión.</p>
-                    <div id="modalidadContainer" class="flex items-center space-x-6">
-                        <div class="flex items-center">
-                            <input id="modalidadPresencial" name="modalidadSesion" type="radio" value="presencial" class="h-4 w-4 text-[#003366] border-gray-300 focus:ring-[#003366]" required>
-                            <label for="modalidadPresencial" class="ml-3 block text-sm font-medium text-gray-700">Presencial</label>
-                        </div>
-                        <div class="flex items-center">
-                            <input id="modalidadVirtual" name="modalidadSesion" type="radio" value="virtual" class="h-4 w-4 text-[#003366] border-gray-300 focus:ring-[#003366]" required>
-                            <label for="modalidadVirtual" class="ml-3 block text-sm font-medium text-gray-700">Virtual</label>
-                        </div>
+                    <h3 class="text-lg font-bold mb-3">Modalidad de esta Sesión de Consentimiento</h3>
+                    <div class="flex items-center space-x-6">
+                        <label class="flex items-center"><input type="radio" name="modalidad" value="presencial" class="h-4 w-4 text-[#003366] border-gray-300 focus:ring-[#003366]" checked> <span class="ml-2">Presencial</span></label>
+                        <label class="flex items-center"><input type="radio" name="modalidad" value="virtual" class="h-4 w-4 text-[#003366] border-gray-300 focus:ring-[#003366]"> <span class="ml-2">Virtual</span></label>
                     </div>
                 </div>
 
                 <div class="mt-6 pt-6 border-t">
-                    <h3 class="text-lg font-semibold mb-3">Declaración y Aceptación Final</h3>
-                    <div class="flex items-start p-4 bg-gray-50 rounded-lg">
-                        <input id="aceptoTerminos" name="aceptoTerminos" type="checkbox" class="h-4 w-4 mt-1 flex-shrink-0 text-[#003366] border-gray-300 rounded focus:ring-[#003366]" disabled>
-                        <label for="aceptoTerminos" id="declaracionFinalLabel" class="ml-3 block text-sm font-medium text-gray-500">Por favor, selecciona primero la modalidad de la sesión.</label>
+                    <h3 class="text-lg font-bold mb-3">Declaración y Aceptación Final</h3>
+                    <div class="flex items-start">
+                        <input id="aceptoTerminos" name="aceptoTerminos" type="checkbox" class="h-5 w-5 mt-1 text-[#003366] border-gray-300 rounded focus:ring-[#003366]">
+                        <label for="aceptoTerminos" id="declaracionLabel" class="ml-3 block text-sm font-medium text-gray-700"></label>
                     </div>
                 </div>
+                <!-- FIN DE CAMBIOS -->
 
-                <div id="consent-error" class="text-red-600 text-center font-semibold hidden mt-4">Debes seleccionar una modalidad y aceptar la declaración para poder continuar.</div>
+                <div id="consent-error" class="text-red-600 text-center font-semibold hidden mt-4">Debes aceptar los términos y la modalidad para poder continuar.</div>
                 <div class="text-center mt-6"><button type="button" id="continueToSignatureButton" class="btn-brand" disabled>Continuar a la Firma</button></div>
             </div>
         </div>
@@ -146,167 +138,43 @@
 
     <footer class="bg-[#1a1a1a] text-white py-8 mt-16">
         <div class="container mx-auto text-center">
-             <!-- AJUSTE: Se actualiza el texto de copyright -->
-             <p class="text-gray-400">&copy; 2025 Marcela Villegas Gallego - MétodoYuen / Acupuntura / Psicología. Todos los derechos reservados.</p>
-            <!-- AJUSTE: Se actualiza el enlace a la política de datos -->
-            <div class="mt-4"><a href="politicasdatosmvg.pdf" target="_blank" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Política de tratamiento de datos</a><span class="text-gray-600 mx-2">|</span><a href="login.html" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Acceso Terapeuta</a></div>
+             <p class="text-gray-400">&copy; 2025 Jorge Arango Castaño - Caminos del Ser. Todos los derechos reservados.</p>
+            <div class="mt-4"><a href="https://www.caminosdelser.co/politicadatos.html" target="_blank" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Política de tratamiento de datos</a><span class="text-gray-600 mx-2">|</span><a href="login.html" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Acceso Terapeuta</a></div>
         </div>
     </footer>
     
     <div id="cookieBanner" class="bg-[#003366] text-white p-4 flex flex-col md:flex-row items-center justify-center space-y-3 md:space-y-0 md:space-x-6 shadow-2xl">
         <p class="text-sm text-center">
             Utilizamos cookies y datos de sesión para garantizar la funcionalidad del formulario y mejorar tu experiencia. Al continuar, aceptas nuestra
-            <!-- AJUSTE: Se actualiza el enlace a la política de datos -->
-            <a href="politicasdatosmvg.pdf" target="_blank" class="text-white font-semibold underline hover:text-gray-200">Política de tratamiento de datos.</a>
+            <a href="http://www.caminosdelser.co/politicadatos.html" target="_blank" class="text-white font-semibold underline hover:text-gray-200">Política de tratamiento de datos.</a>
         </p>
         <button id="acceptCookies" class="bg-white text-[#003366] font-semibold py-2 px-6 rounded-full hover:bg-gray-200 transition-colors text-sm flex-shrink-0">Aceptar</button>
     </div>
     
 <script>
 document.addEventListener('DOMContentLoaded', async function() {
-    // Referencias a elementos
+    // --- INICIO DE LÓGICA DE ACTUALIZACIÓN ---
     const demographicsForm = document.getElementById('demographicsForm');
     const consentimientoContainer = document.getElementById('consentimientoContainer');
     const showConsentButton = document.getElementById('showConsentButton');
     const continueToSignatureButton = document.getElementById('continueToSignatureButton');
-    const fechaNacimientoInput = document.getElementById('fechaNacimiento');
-    const edadInput = document.getElementById('edad');
-    const adultoResponsableContainer = document.getElementById('adultoResponsableContainer');
-    const paisSelect = document.getElementById('pais');
-    const tipoDocumentoSelect = document.getElementById('tipoDocumento');
-    const departamentoContainer = document.getElementById('departamentoContainer');
-    const municipioContainer = document.getElementById('municipioContainer');
-    const ciudadContainer = document.getElementById('ciudadContainer');
-    const departamentoSelect = document.getElementById('departamento');
-    const municipioSelect = document.getElementById('municipio');
-    const cookieBanner = document.getElementById('cookieBanner');
-    const acceptCookiesButton = document.getElementById('acceptCookies');
-    
-    const modalidadRadios = document.querySelectorAll('input[name="modalidadSesion"]');
-    const declaracionFinalLabel = document.getElementById('declaracionFinalLabel');
+    const declaracionLabel = document.getElementById('declaracionLabel');
     const aceptoTerminosCheckbox = document.getElementById('aceptoTerminos');
-
-    let geodata = {};
-
-    if (localStorage.getItem('cookiesAccepted') !== 'true') {
-        setTimeout(() => { cookieBanner.classList.add('show'); }, 500);
-    }
-    acceptCookiesButton.addEventListener('click', () => {
-        localStorage.setItem('cookiesAccepted', 'true');
-        cookieBanner.classList.remove('show');
-    });
-
-    document.getElementById('fechaDiligenciamiento').valueAsDate = new Date();
     
-    async function cargarGeodata() {
-        try {
-            const response = await fetch('geodata.json');
-            geodata = await response.json();
-            poblarPaises();
-        } catch (error) { console.error('Error cargando geodata.json:', error); }
-    }
+    let datosDemograficos = {};
 
-    function poblarPaises() {
-        paisSelect.innerHTML = '<option value="">Seleccione un país</option>';
-        const continentes = ['Norteamérica', 'Centroamérica', 'Suramérica'];
-        continentes.forEach(continente => {
-            const optgroup = document.createElement('optgroup');
-            optgroup.label = continente;
-            Object.keys(geodata[continente]).sort().forEach(pais => {
-                const option = document.createElement('option');
-                option.value = pais;
-                option.textContent = pais;
-                optgroup.appendChild(option);
-            });
-            paisSelect.appendChild(optgroup);
-        });
-    }
-
-    function poblarDepartamentos(pais) {
-        departamentoSelect.innerHTML = '<option value="">Seleccione Departamento</option>';
-        let departamentos = [];
-        for (const cont in geodata) { if (geodata[cont][pais]) { departamentos = Object.keys(geodata[cont][pais]); break; } }
-        departamentos.sort().forEach(depto => {
-            const option = document.createElement('option');
-            option.value = depto;
-            option.textContent = depto;
-            departamentoSelect.appendChild(option);
-        });
-    }
-
-    function poblarMunicipios(pais, depto) {
-        municipioSelect.innerHTML = '<option value="">Seleccione Municipio</option>';
-        let municipios = [];
-        for (const cont in geodata) { if (geodata[cont][pais] && geodata[cont][pais][depto]) { municipios = geodata[cont][pais][depto]; break; } }
-        municipios.sort().forEach(mun => {
-            const option = document.createElement('option');
-            option.value = mun;
-            option.textContent = mun;
-            municipioSelect.appendChild(option);
-        });
-    }
-
-    paisSelect.addEventListener('change', () => {
-        const pais = paisSelect.value;
-        departamentoContainer.classList.add('hidden');
-        municipioContainer.classList.add('hidden');
-        ciudadContainer.classList.add('hidden');
-        if (pais === 'Colombia') {
-            poblarDepartamentos(pais);
-            departamentoContainer.classList.remove('hidden');
-        } else if (pais) {
-            ciudadContainer.classList.remove('hidden');
-        }
-        actualizarTipoDocumento();
-    });
-
-    departamentoSelect.addEventListener('change', () => {
-        municipioContainer.classList.remove('hidden');
-        poblarMunicipios(paisSelect.value, departamentoSelect.value);
-    });
-    
-    await cargarGeodata();
-
-    function calcularEdad(fechaNacimiento) {
-        const hoy = new Date();
-        const nacimiento = new Date(fechaNacimiento);
-        let edad = hoy.getFullYear() - nacimiento.getFullYear();
-        const mes = hoy.getMonth() - nacimiento.getMonth();
-        if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) { edad--; }
-        return edad;
-    }
-    
-    function actualizarTipoDocumento() {
-        const pais = paisSelect.value;
-        const edad = parseInt(edadInput.value, 10);
-        tipoDocumentoSelect.innerHTML = '';
-        let opciones = [];
-        if (isNaN(edad)) { 
-             opciones = pais === 'Colombia' ? ['Cédula de Ciudadanía', 'Cédula de Extranjería', 'Pasaporte'] : ['Documento Nacional de Identidad', 'Pasaporte'];
-        } else if (edad < 18) {
-            opciones = ['Tarjeta de Identidad'];
+    function actualizarDeclaracion() {
+        const modalidadSeleccionada = document.querySelector('input[name="modalidad"]:checked').value;
+        const esMenor = parseInt(datosDemograficos.edad, 10) < 18;
+        
+        let textoDeclaracion = '';
+        if (esMenor) {
+            textoDeclaracion = `Declaro y doy fe de que yo, ${datosDemograficos.nombreAcudiente}, en mi calidad de acudiente de ${datosDemograficos.nombreCompleto}, he leído y comprendido este documento durante una sesión ${modalidadSeleccionada} con el Psicólogo Jorge Arango Castaño, donde se me ha garantizado un espacio para hacer preguntas, las cuales han sido respondidas a mi entera satisfacción.`;
         } else {
-            opciones = pais === 'Colombia' ? ['Cédula de Ciudadanía', 'Cédula de Extranjería', 'Pasaporte'] : ['Documento Nacional de Identidad', 'Pasaporte'];
+            textoDeclaracion = `Declaro y doy fe de que yo, ${datosDemograficos.nombreCompleto}, he leído y comprendido este documento durante una sesión ${modalidadSeleccionada} con el Psicólogo Jorge Arango Castaño, donde se me ha garantizado un espacio para hacer preguntas, las cuales han sido respondidas a mi entera satisfacción.`;
         }
-        opciones.forEach(op => {
-            const option = document.createElement('option');
-            option.value = op;
-            option.textContent = op;
-            tipoDocumentoSelect.appendChild(option);
-        });
+        declaracionLabel.textContent = `${textoDeclaracion} Al marcar esta casilla, acepto todos los términos descritos anteriormente.`;
     }
-
-    fechaNacimientoInput.addEventListener('change', function() {
-        if (this.value) {
-            const edad = calcularEdad(this.value);
-            edadInput.value = edad;
-            adultoResponsableContainer.classList.toggle('hidden', edad >= 18);
-            document.getElementById('nombreAcudiente').required = edad < 18;
-            document.getElementById('tipoAcudiente').required = edad < 18;
-            document.getElementById('documentoAcudiente').required = edad < 18;
-            actualizarTipoDocumento();
-        }
-    });
 
     showConsentButton.addEventListener('click', function() {
         if (!demographicsForm.checkValidity()) {
@@ -321,67 +189,43 @@ document.addEventListener('DOMContentLoaded', async function() {
         window.scrollTo(0, 0);
 
         const formData = new FormData(demographicsForm);
-        const datos = Object.fromEntries(formData.entries());
-        const esMenor = parseInt(datos.edad, 10) < 18;
+        datosDemograficos = Object.fromEntries(formData.entries());
+        const esMenor = parseInt(datosDemograficos.edad, 10) < 18;
 
-        document.getElementById('consentimientoIntro').textContent = esMenor ? `Yo, ${datos.nombreAcudiente}, con documento de identidad ${datos.documentoAcudiente}, actuando como acudiente en calidad de ${datos.tipoAcudiente}, de ${datos.nombreCompleto}, con documento de identidad ${datos.documentoIdentidad}.` : `Yo, ${datos.nombreCompleto}, identificado/a con documento de identidad ${datos.documentoIdentidad}, declaro que:`;
+        document.getElementById('consentimientoIntro').textContent = esMenor ? `Yo, ${datosDemograficos.nombreAcudiente}, con documento de identidad ${datosDemograficos.documentoAcudiente}, actuando como acudiente en calidad de ${datosDemograficos.tipoAcudiente}, de ${datosDemograficos.nombreCompleto}, con documento de identidad ${datosDemograficos.documentoIdentidad}.` : `Yo, ${datosDemograficos.nombreCompleto}, identificado/a con documento de identidad ${datosDemograficos.documentoIdentidad}, declaro que:`;
         document.getElementById('confidencialidadTexto').textContent = esMenor ? 'Entiendo, acepto y soy consciente del trabajo profesional que realizará el psicólogo designado, y que este guardará una confidencialidad absoluta con el (la) paciente menor de edad, la cual será inviolable, salvo que su integridad física se vea amenazada, y salvo los requerimientos de ley que así mismo pidan levantar la reserva profesional.' : 'Entiendo, acepto y soy consciente del trabajo profesional que realizará el psicólogo designado, y que este guardará una confidencialidad absoluta con el (la) paciente, la cual será inviolable, salvo que su integridad física se vea amenazada, y salvo los requerimientos de ley que así mismo pidan levantar la reserva profesional.';
         document.getElementById('evaluacionTexto').textContent = esMenor ? 'Autorizo que le sean practicadas pruebas psicométricas y demás herramientas diagnósticas que el psicólogo designado así considere necesario, a fin de establecer cabal y puntualmente un diagnóstico asertivo sobre el motivo de consulta del (la) paciente menor de edad en consulta.' : 'Autorizo que sean practicadas pruebas psicométricas y demás herramientas diagnósticas que el psicólogo designado así considere necesario, a fin de establecer cabal y puntualmente un diagnóstico asertivo sobre el motivo de consulta.';
         document.getElementById('costosTexto').textContent = esMenor ? 'Me comprometo como acudiente del (la) paciente menor de edad, a cubrir todos los gastos económicos en que se incurra con motivo de la atención que recibirá, habiendo recibido la información de forma clara y oportuna y habiendo tenido la oportunidad de aceptar o rechazar dichas atenciones psicológicas y los costos asociados.' : 'Me comprometo a cubrir todos los gastos económicos en que se incurra con motivo de la atención que recibiré, habiendo recibido la información de forma clara y oportuna y habiendo tenido la oportunidad de aceptar o rechazar dichas atenciones psicológicas y los costos asociados.';
+        
+        actualizarDeclaracion(); 
     });
 
-    function updateDeclaracionFinal() {
-        const formData = new FormData(demographicsForm);
-        const datos = Object.fromEntries(formData.entries());
-        const esMenor = parseInt(datos.edad, 10) < 18;
-        const modalidadSeleccionada = document.querySelector('input[name="modalidadSesion"]:checked');
-
-        if (!modalidadSeleccionada) {
-            declaracionFinalLabel.textContent = 'Por favor, selecciona primero la modalidad de la sesión.';
-            declaracionFinalLabel.classList.add('text-gray-500');
-            aceptoTerminosCheckbox.disabled = true;
-            return;
-        }
-
-        aceptoTerminosCheckbox.disabled = false;
-        declaracionFinalLabel.classList.remove('text-gray-500');
-        
-        const modalidad = modalidadSeleccionada.value === 'presencial' ? 'presencial' : 'virtual';
-        let declarante = `yo, ${datos.nombreCompleto},`;
-        if (esMenor && datos.nombreAcudiente) {
-            declarante = `yo, ${datos.nombreAcudiente}, en mi calidad de acudiente de ${datos.nombreCompleto},`;
-        }
-        
-        // AJUSTE: Se actualiza el texto para incluir el nombre de la psicóloga.
-        declaracionFinalLabel.innerHTML = `Declaro y doy fe de que ${declarante} he leído y comprendido este documento durante una sesión <strong>${modalidad}</strong> con la Psicóloga Marcela Villegas Gallego, donde se me ha garantizado un espacio para hacer preguntas, las cuales han sido respondidas a mi entera satisfacción. Al marcar esta casilla, acepto todos los términos descritos anteriormente.`;
-    }
-
-    modalidadRadios.forEach(radio => {
-        radio.addEventListener('change', updateDeclaracionFinal);
+    document.querySelectorAll('input[name="modalidad"]').forEach(radio => {
+        radio.addEventListener('change', actualizarDeclaracion);
     });
 
     aceptoTerminosCheckbox.addEventListener('change', function() {
-        const modalidadSeleccionada = document.querySelector('input[name="modalidadSesion"]:checked');
-        continueToSignatureButton.disabled = !this.checked || !modalidadSeleccionada;
-        if (this.checked && modalidadSeleccionada) {
-            document.getElementById('consent-error').classList.add('hidden');
-        }
+        continueToSignatureButton.disabled = !this.checked;
+        if (this.checked) document.getElementById('consent-error').classList.add('hidden');
     });
 
     continueToSignatureButton.addEventListener('click', function() {
-        const modalidadSeleccionada = document.querySelector('input[name="modalidadSesion"]:checked');
-        if (!aceptoTerminosCheckbox.checked || !modalidadSeleccionada) {
+        if (!aceptoTerminosCheckbox.checked) {
             document.getElementById('consent-error').classList.remove('hidden');
             return;
         }
-
-        const formData = new FormData(demographicsForm);
-        const datosDemograficos = Object.fromEntries(formData.entries());
         
-        datosDemograficos.modalidadSesion = modalidadSeleccionada.value;
+        const modalidadSeleccionada = document.querySelector('input[name="modalidad"]:checked').value;
+        const declaracionFinal = declaracionLabel.textContent;
+
+        const datosCompletos = {
+            ...datosDemograficos,
+            modalidad: modalidadSeleccionada,
+            declaracionFinal: declaracionFinal
+        };
 
         try {
-            sessionStorage.setItem('consentimiento_demograficos', JSON.stringify(datosDemograficos));
+            sessionStorage.setItem('consentimiento_demograficos', JSON.stringify(datosCompletos));
             window.location.href = 'firma.html';
         } catch (error) {
             console.error("Error al guardar en sessionStorage:", error);
@@ -389,8 +233,37 @@ document.addEventListener('DOMContentLoaded', async function() {
             document.getElementById('consent-error').classList.remove('hidden');
         }
     });
+    // --- FIN DE LÓGICA DE ACTUALIZACIÓN ---
+
+
+    // --- El resto del código para geolocalización, edad, etc. permanece igual ---
+    const fechaNacimientoInput = document.getElementById('fechaNacimiento');
+    const edadInput = document.getElementById('edad');
+    const adultoResponsableContainer = document.getElementById('adultoResponsableContainer');
+    const paisSelect = document.getElementById('pais');
+    const tipoDocumentoSelect = document.getElementById('tipoDocumento');
+    const departamentoContainer = document.getElementById('departamentoContainer');
+    const municipioContainer = document.getElementById('municipioContainer');
+    const ciudadContainer = document.getElementById('ciudadContainer');
+    const departamentoSelect = document.getElementById('departamento');
+    const municipioSelect = document.getElementById('municipio');
+    const cookieBanner = document.getElementById('cookieBanner');
+    const acceptCookiesButton = document.getElementById('acceptCookies');
+    let geodata = {};
+    if (localStorage.getItem('cookiesAccepted') !== 'true') { setTimeout(() => { cookieBanner.classList.add('show'); }, 500); }
+    acceptCookiesButton.addEventListener('click', () => { localStorage.setItem('cookiesAccepted', 'true'); cookieBanner.classList.remove('show'); });
+    document.getElementById('fechaDiligenciamiento').valueAsDate = new Date();
+    async function cargarGeodata() { try { const response = await fetch('geodata.json'); geodata = await response.json(); poblarPaises(); } catch (error) { console.error('Error cargando geodata.json:', error); } }
+    function poblarPaises() { paisSelect.innerHTML = '<option value="">Seleccione un país</option>'; const continentes = ['Norteamérica', 'Centroamérica', 'Suramérica']; continentes.forEach(continente => { const optgroup = document.createElement('optgroup'); optgroup.label = continente; Object.keys(geodata[continente]).sort().forEach(pais => { const option = document.createElement('option'); option.value = pais; option.textContent = pais; optgroup.appendChild(option); }); paisSelect.appendChild(optgroup); }); }
+    function poblarDepartamentos(pais) { departamentoSelect.innerHTML = '<option value="">Seleccione Departamento</option>'; let departamentos = []; for (const cont in geodata) { if (geodata[cont][pais]) { departamentos = Object.keys(geodata[cont][pais]); break; } } departamentos.sort().forEach(depto => { const option = document.createElement('option'); option.value = depto; option.textContent = depto; departamentoSelect.appendChild(option); }); }
+    function poblarMunicipios(pais, depto) { municipioSelect.innerHTML = '<option value="">Seleccione Municipio</option>'; let municipios = []; for (const cont in geodata) { if (geodata[cont][pais] && geodata[cont][pais][depto]) { municipios = geodata[cont][pais][depto]; break; } } municipios.sort().forEach(mun => { const option = document.createElement('option'); option.value = mun; option.textContent = mun; municipioSelect.appendChild(option); }); }
+    paisSelect.addEventListener('change', () => { const pais = paisSelect.value; departamentoContainer.classList.add('hidden'); municipioContainer.classList.add('hidden'); ciudadContainer.classList.add('hidden'); if (pais === 'Colombia') { poblarDepartamentos(pais); departamentoContainer.classList.remove('hidden'); } else if (pais) { ciudadContainer.classList.remove('hidden'); } actualizarTipoDocumento(); });
+    departamentoSelect.addEventListener('change', () => { municipioContainer.classList.remove('hidden'); poblarMunicipios(paisSelect.value, departamentoSelect.value); });
+    await cargarGeodata();
+    function calcularEdad(fechaNacimiento) { const hoy = new Date(); const nacimiento = new Date(fechaNacimiento); let edad = hoy.getFullYear() - nacimiento.getFullYear(); const mes = hoy.getMonth() - nacimiento.getMonth(); if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) { edad--; } return edad; }
+    function actualizarTipoDocumento() { const pais = paisSelect.value; const edad = parseInt(edadInput.value, 10); tipoDocumentoSelect.innerHTML = ''; let opciones = []; if (isNaN(edad)) { opciones = pais === 'Colombia' ? ['Cédula de Ciudadanía', 'Cédula de Extranjería', 'Pasaporte'] : ['Documento Nacional de Identidad', 'Pasaporte']; } else if (edad < 18) { opciones = ['Tarjeta de Identidad']; } else { opciones = pais === 'Colombia' ? ['Cédula de Ciudadanía', 'Cédula de Extranjería', 'Pasaporte'] : ['Documento Nacional de Identidad', 'Pasaporte']; } opciones.forEach(op => { const option = document.createElement('option'); option.value = op; option.textContent = op; tipoDocumentoSelect.appendChild(option); }); }
+    fechaNacimientoInput.addEventListener('change', function() { if (this.value) { const edad = calcularEdad(this.value); edadInput.value = edad; adultoResponsableContainer.classList.toggle('hidden', edad >= 18); document.getElementById('nombreAcudiente').required = edad < 18; document.getElementById('tipoAcudiente').required = edad < 18; document.getElementById('documentoAcudiente').required = edad < 18; actualizarTipoDocumento(); } });
 });
 </script>
 </body>
 </html>
-
