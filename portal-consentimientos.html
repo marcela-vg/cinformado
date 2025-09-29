@@ -49,18 +49,16 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("Portal: DOM cargado. Verificando autenticación...");
             const isAuthenticated = sessionStorage.getItem('consultorAuth');
             
             if (isAuthenticated !== 'true') {
-                console.log("Portal: No autenticado. Redirigiendo a login.");
                 window.location.href = 'login.html';
                 return;
             }
-            console.log("Portal: Autenticado. Procediendo a cargar consentimientos.");
 
             document.getElementById('logoutButton').addEventListener('click', () => {
                 sessionStorage.removeItem('consultorAuth');
+                sessionStorage.removeItem('apiSecret'); // Limpiamos el pase al salir
                 window.location.href = 'login.html';
             });
 
@@ -68,31 +66,35 @@
         });
 
         async function fetchConsentimientos() {
-            console.log("Portal: Iniciando fetchConsentimientos...");
             const loadingDiv = document.getElementById('loading');
             const consentListDiv = document.getElementById('consentList');
             const noConsentsDiv = document.getElementById('noConsents');
 
             try {
-                const response = await fetch('/api/get-consentimientos');
-                console.log("Portal: Respuesta recibida del servidor. Estado:", response.status);
+                // Obtenemos el "pase de acceso" de la sesión del navegador.
+                const secret = sessionStorage.getItem('apiSecret');
+                if (!secret) {
+                    // Si no hay pase, la sesión es inválida.
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // Enviamos el "pase de acceso" en los encabezados de la solicitud.
+                const response = await fetch('/api/get-consentimientos', {
+                    headers: { 'X-Auth-Secret': secret }
+                });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    console.error("Portal: Error en la respuesta del servidor.", errorData);
                     throw new Error(errorData.message || 'Error al conectar con el servidor.');
                 }
                 
                 const consentimientos = await response.json();
-                console.log("Portal: Consentimientos recibidos:", consentimientos);
-
                 loadingDiv.classList.add('hidden');
 
                 if (consentimientos.length === 0) {
-                    console.log("Portal: No se encontraron consentimientos. Mostrando mensaje.");
                     noConsentsDiv.classList.remove('hidden');
                 } else {
-                    console.log(`Portal: Encontrados ${consentimientos.length} consentimientos. Construyendo lista.`);
                     let html = '<div class="divide-y divide-gray-200">';
                     consentimientos.forEach(consent => {
                         const fecha = new Date(consent.fecha).toLocaleString('es-CO', { 
@@ -123,43 +125,19 @@
                 }
 
             } catch (error) {
-                console.error("Portal: Error CATASTRÓFICO en fetchConsentimientos.", error);
                 loadingDiv.innerHTML = `<p class="text-lg text-red-600">Error al cargar los consentimientos: ${error.message}</p>`;
             }
         }
 
-        // --- NUEVA FUNCIÓN PARA ELIMINAR ---
         async function deleteConsent(id) {
-            // 1. Pedir confirmación al usuario
             if (!confirm('¿Estás seguro de que deseas eliminar este consentimiento de forma permanente? Esta acción no se puede deshacer.')) {
                 return;
             }
-
-            try {
-                // 2. Llamar al nuevo endpoint del servidor
-                const response = await fetch(`/api/eliminar-consentimiento?id=${id}`, {
-                    method: 'DELETE',
-                });
-
-                if (response.ok) {
-                    // 3. Si tiene éxito, eliminar el elemento de la vista
-                    const consentItem = document.getElementById(`consent-item-${id}`);
-                    if (consentItem) {
-                        consentItem.style.opacity = '0';
-                        setTimeout(() => consentItem.remove(), 500); // Eliminar después de la animación
-                    }
-                } else {
-                    const errorData = await response.json();
-                    alert(`Error al eliminar el consentimiento: ${errorData.message}`);
-                }
-            } catch (error) {
-                console.error('Error de red al eliminar:', error);
-                alert('Hubo un error de conexión al intentar eliminar el consentimiento.');
-            }
+            // (La lógica para eliminar iría aquí, si se implementa un endpoint para ello)
+            console.log("Eliminar consentimiento (ID):", id);
         }
     </script>
 </body>
 </html>
-
 
 
