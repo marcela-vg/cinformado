@@ -1,24 +1,26 @@
 import { db } from '../lib/firebaseAdmin.js';
-import { verifyAuth } from '../lib/verifyAuth.js'; // Importamos nuestro manual de seguridad.
 
 export default async function handler(request, response) {
     if (request.method !== 'GET') {
         return response.status(405).json({ message: 'Método no permitido.' });
     }
 
-    // --- INICIO DEL BLINDAJE DE SEGURIDAD ---
-    // 1. Llamamos a nuestro guardia para que verifique el token.
-    const authResult = verifyAuth(request);
+    // --- GUARDIÁN DE SEGURIDAD MEJORADO ---
+    const providedSecret = request.headers['x-auth-secret'];
+    const serverSecret = process.env.LOGIN_PASSWORD;
 
-    // 2. Si el guardia nos dice que no está autenticado, denegamos el acceso inmediatamente.
-    if (!authResult.authenticated) {
-        return response.status(401).json({ message: 'Acceso no autorizado.', error: authResult.error });
+    if (!providedSecret) {
+        console.warn("Acceso denegado: La solicitud no incluyó el encabezado 'X-Auth-Secret'.");
+        return response.status(401).json({ message: 'Acceso no autorizado.' });
     }
-    // --- FIN DEL BLINDAJE DE SEGURIDAD ---
+    
+    if (providedSecret !== serverSecret) {
+        console.warn("Acceso denegado: El 'X-Auth-Secret' proporcionado es incorrecto.");
+        return response.status(401).json({ message: 'Acceso no autorizado.' });
+    }
 
-    // Si llegamos a este punto, significa que el token es válido y podemos proceder.
     try {
-        const snapshot = await db.collection('consents').orderBy('fecha', 'desc').get();
+        const snapshot = await db.collection('consents').get();
         
         if (snapshot.empty) {
             return response.status(200).json([]);
@@ -34,6 +36,9 @@ export default async function handler(request, response) {
             };
         });
         
+        // Ordenamos los resultados por fecha (del más reciente al más antiguo) aquí en el servidor.
+        consentimientos.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
         response.status(200).json(consentimientos);
 
     } catch (error) {
@@ -41,3 +46,4 @@ export default async function handler(request, response) {
         response.status(500).json({ message: 'Error interno del servidor al obtener los documentos.' });
     }
 }
+
