@@ -1,37 +1,36 @@
 import { db } from '../lib/firebaseAdmin.js';
-import { verifyAuth } from '../lib/verifyAuth.js'; // Importamos nuestro manual de seguridad.
 
 export default async function handler(request, response) {
+    // Solo permitimos el método DELETE para esta operación.
     if (request.method !== 'DELETE') {
         return response.status(405).json({ message: 'Método no permitido.' });
     }
 
-    // --- INICIO DEL BLINDAJE DE SEGURIDAD ---
-    // 1. Llamamos a nuestro guardia para que verifique el token.
-    const authResult = verifyAuth(request);
+    // --- GUARDIÁN DE SEGURIDAD ---
+    // Verificamos el "pase de acceso" para asegurar que solo un usuario autorizado pueda eliminar.
+    const providedSecret = request.headers['x-auth-secret'];
+    const serverSecret = process.env.LOGIN_PASSWORD;
 
-    // 2. Si no está autenticado, denegamos la acción de eliminar inmediatamente.
-    if (!authResult.authenticated) {
-        return response.status(401).json({ message: 'Acceso no autorizado.', error: authResult.error });
+    if (!providedSecret || providedSecret !== serverSecret) {
+        console.warn("Acceso denegado a /api/eliminar-consentimiento.");
+        return response.status(401).json({ message: 'Acceso no autorizado.' });
     }
-    // --- FIN DEL BLINDAJE DE SEGURIDAD ---
 
-    // Si la autenticación es exitosa, procedemos.
     try {
+        // Obtenemos el ID del documento que se va a eliminar desde la URL.
         const { id } = request.query;
         if (!id) {
-            return response.status(400).json({ message: 'El ID del consentimiento es requerido.' });
+            return response.status(400).json({ message: 'El ID del consentimiento es requerido para la eliminación.' });
         }
 
-        // Apuntar al documento específico y eliminarlo.
+        // Apuntamos al documento y lo eliminamos.
         await db.collection('consents').doc(id).delete();
-
-        console.log(`Servidor: Consentimiento con ID: ${id} eliminado exitosamente por un usuario autenticado.`);
         
+        // Enviamos una respuesta de éxito.
         response.status(200).json({ message: 'Consentimiento eliminado exitosamente.' });
 
     } catch (error) {
         console.error(`Error al eliminar el consentimiento ${request.query.id}:`, error);
-        response.status(500).json({ message: 'Error interno del servidor al eliminar el documento.' });
+        response.status(500).json({ message: 'Error interno del servidor.' });
     }
 }
