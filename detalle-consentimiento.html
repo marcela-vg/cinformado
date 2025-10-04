@@ -1,89 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle de Consentimiento - CInformado</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #F8F7F2; color: #4A4A4A; }
-        h1, h2, h3 { font-family: 'Poppins', sans-serif; color: #1a1a1a; font-weight: 700; }
-        .card { background-color: white; border-radius: 16px; padding: 2.5rem; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
-        .detail-item { border-bottom: 1px solid #e5e7eb; padding: 0.75rem 0; }
-        .detail-item:last-child { border-bottom: none; }
-        .detail-label { font-weight: 600; color: #4b5563; }
-    </style>
-</head>
-<body class="bg-gray-50">
-    <header class="bg-white shadow-sm">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="portal-consentimientos.html" class="text-sm font-medium text-gray-600 hover:text-[#003366] flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-                Volver al Portal
-            </a>
-            <a href="portal-consentimientos.html">
-                <img src="logoprincipal.png" alt="Caminos del Ser Logo" class="h-11 w-auto">
-            </a>
-            <button id="logoutButton" class="text-sm font-medium text-gray-600 hover:text-[#003366]">Cerrar Sesión</button>
-        </div>
-    </header>
-
-    <main class="container mx-auto px-6 py-12">
-        <div id="loading" class="text-center py-20">
-            <h1 class="text-3xl">Cargando detalle del consentimiento...</h1>
-        </div>
-
-        <div id="reportContent" class="hidden space-y-8">
-            <h1 id="reportTitle" class="text-4xl font-bold text-center">Detalle del Consentimiento</h1>
-
-            <div class="card">
-                <h2 class="text-2xl font-bold mb-4 border-b pb-2">Términos del Consentimiento Aceptado</h2>
-                <div class="prose max-w-none space-y-4 text-gray-700 text-sm">
-                    <p id="consentimientoIntro"></p>
-                    <div class="space-y-2"><h4 class="font-bold">2.1 Confidencialidad:</h4><p id="confidencialidadTexto"></p></div>
-                    <div class="space-y-2"><h4 class="font-bold">2.2 Propósito de la Intervención:</h4><p>El propósito es realizar una evaluación y/o intervención psicológica...</p></div>
-                    <div class="space-y-2"><h4 class="font-bold">2.3 Naturaleza del Proceso:</h4><p>Se me ha informado que el proceso puede incluir entrevistas, pruebas psicométricas y tareas...</p></div>
-                    <div class="space-y-2"><h4 class="font-bold">2.4 Proceso de evaluación:</h4><p id="evaluacionTexto"></p></div>
-                    <div class="space-y-2"><h4 class="font-bold">2.5 Costos económicos:</h4><p id="costosTexto"></p></div>
-                    <div class="space-y-2"><h4 class="font-bold">2.6 Tratamiento de Datos:</h4><p>Autorizo el tratamiento de mis datos personales...</p></div>
-                </div>
-            </div>
-
-            <div id="modalidadCard" class="card">
-                <h2 class="text-2xl font-bold mb-4 border-b pb-2">Modalidad de esta Sesión de Consentimiento</h2>
-                <div id="modalidadContent" class="text-lg"></div>
-            </div>
-
-            <div id="declaracionCard" class="card">
-                <h2 class="text-2xl font-bold mb-4 border-b pb-2">Declaración y Aceptación Final</h2>
-                <div id="declaracionContent" class="text-gray-800 bg-gray-50 p-4 rounded-md"></div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="card">
-                    <h2 class="text-2xl font-bold mb-4 border-b pb-2">Información del Paciente</h2>
-                    <div id="demographicsContent" class="space-y-3"></div>
-                </div>
-                <div class="space-y-8">
-                    <div class="card">
-                        <h2 class="text-2xl font-bold mb-4 border-b pb-2">Firma Digital</h2>
-                        <div class="flex justify-center items-center p-4 bg-gray-50 rounded-lg"><img id="signatureImage" src="" alt="Firma del paciente" class="max-w-full h-auto"></div>
-                    </div>
-                    <div class="card">
-                        <h2 class="text-2xl font-bold mb-4 border-b pb-2">Metadatos</h2>
-                        <div id="metadataContent" class="space-y-3"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="acudienteCard" class="card hidden">
-                <h2 class="text-2xl font-bold mb-4 border-b pb-2">Información del Acudiente</h2>
-                <div id="acudienteContent" class="space-y-3"></div>
-            </div>
-        </div>
-    </main>
-
-    <script>
+<script>
         document.addEventListener('DOMContentLoaded', () => {
             if (sessionStorage.getItem('consultorAuth') !== 'true') {
                 window.location.href = 'login.html';
@@ -91,6 +7,8 @@
             }
             document.getElementById('logoutButton').addEventListener('click', () => {
                 sessionStorage.removeItem('consultorAuth');
+                // --- CAMBIO: Limpiamos también la llave secreta ---
+                sessionStorage.removeItem('apiSecret');
                 window.location.href = 'login.html';
             });
             fetchReport();
@@ -102,77 +20,36 @@
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
 
-            if (!id) {
-                loadingDiv.innerHTML = '<h1 class="text-3xl text-red-600">ID no proporcionado.</h1>';
-                return;
-            }
             try {
-                const response = await fetch(`/api/get-consentimiento-individual?id=${id}`);
+                // --- CAMBIO CLAVE: Leer y enviar la llave secreta ---
+                const secret = sessionStorage.getItem('apiSecret');
+                if (!secret) {
+                    throw new Error('No se encontró el pase de seguridad. Inicia sesión de nuevo.');
+                }
+                const response = await fetch(`/api/get-consentimiento-individual?id=${id}`, {
+                    headers: { 'X-Auth-Secret': secret }
+                });
+                // --- FIN DEL CAMBIO ---
+
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.message || 'No se pudo cargar.');
+                    throw new Error(errorData.message);
                 }
                 const reporte = await response.json();
-                displayReport(reporte);
+                
+                displayReport(reporte); // Tu función displayReport va aquí
+
                 loadingDiv.classList.add('hidden');
                 reportContentDiv.classList.remove('hidden');
+
             } catch (error) {
                 console.error("Error al cargar el reporte:", error);
                 loadingDiv.innerHTML = `<h1 class="text-3xl text-red-600">Error: ${error.message}</h1>`;
             }
         }
-
-        function displayReport(reporte) {
-            // Se usan valores por defecto para evitar errores con datos antiguos
-            const demograficos = reporte.demograficos || {};
-            const consentimiento = reporte.consentimiento || {};
-            const firmaDigital = reporte.firmaDigital || '';
-            const fecha = reporte.fecha || new Date().toISOString();
-            
-            document.getElementById('reportTitle').textContent += ` de ${demograficos.nombre || 'N/A'}`;
-            
-            // --- Carga de Datos Demográficos (sin cambios) ---
-            const demoDiv = document.getElementById('demographicsContent');
-            demoDiv.innerHTML = `...`; // Tu código original aquí
-
-            // --- Carga de Firma y Metadatos (sin cambios) ---
-            document.getElementById('signatureImage').src = firmaDigital;
-            const metadataDiv = document.getElementById('metadataContent');
-            const fechaFormateada = new Date(fecha).toLocaleString('es-CO', { dateStyle: 'full', timeStyle: 'short' });
-            metadataDiv.innerHTML = `...`; // Tu código original aquí
-
-            // --- Lógica para Acudiente (sin cambios) ---
-            if (demograficos.nombreAcudiente) {
-                // ...
-            }
-
-            // --- Lógica de Textos de Consentimiento (sin cambios) ---
-            const esMenor = demograficos.edad && parseInt(demograficos.edad, 10) < 18;
-            // ...
-            
-            // ========= INICIO DE LA MODIFICACIÓN: Mostrar nuevos datos =========
-            
-            // 1. Mostrar la Modalidad
-            const modalidad = consentimiento.modalidad || 'No registrada';
-            const modalidadContentDiv = document.getElementById('modalidadContent');
-            modalidadContentDiv.innerHTML = `
-                <div class="flex items-center space-x-4">
-                    <span class="font-semibold">${modalidad.charAt(0).toUpperCase() + modalidad.slice(1)}</span>
-                    <span class="text-green-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </span>
-                </div>`;
-
-            // 2. Mostrar la Declaración Final completa
-            const declaracionDiv = document.getElementById('declaracionContent');
-            // Si el dato existe en la DB, lo usamos. Si no (para registros antiguos), lo reconstruimos.
-            const textoDeclaracion = consentimiento.declaracionFinal || `Declaro y doy fe de que yo, ${esMenor ? demograficos.nombreAcudiente : demograficos.nombre}, he leído y comprendido este documento durante una sesión ${modalidad} con el Psicólogo Jorge Arango Castaño, donde se me ha garantizado un espacio para hacer preguntas, las cuales han sido respondidas a mi entera satisfacción. Al marcar esta casilla, acepto todos los términos descritos anteriormente.`;
-            declaracionDiv.innerHTML = `<p class="font-normal text-sm">${textoDeclaracion}</p>`;
-            
-            // ========= FIN DE LA MODIFICACIÓN =========
-        }
+        
+        // Aquí va la función displayReport(reporte) que ya funciona.
+        // function displayReport(reporte) { ... }
     </script>
 </body>
 </html>
