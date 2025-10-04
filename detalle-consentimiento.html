@@ -19,7 +19,7 @@
     <header class="bg-white shadow-sm">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="portal-consentimientos.html" class="text-sm font-medium text-gray-600 hover:text-[#003366] flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
                 Volver al Portal
             </a>
             <a href="index.html"><img src="logoprincipal.png" alt="Caminos del Ser Logo" class="h-11 w-auto"></a>
@@ -62,9 +62,7 @@
 
             try {
                 const secret = sessionStorage.getItem('apiSecret');
-                if (!secret) {
-                    throw new Error('No autenticado. Por favor, inicia sesión de nuevo.');
-                }
+                if (!secret) throw new Error('No autenticado. Por favor, inicia sesión de nuevo.');
 
                 const response = await fetch(`/api/get-consentimiento-individual?id=${id}`, {
                     headers: { 'X-Auth-Secret': secret }
@@ -76,7 +74,7 @@
                 }
                 const reporte = await response.json();
                 
-                renderReport(reporte); // Llamamos a la nueva función para construir el HTML
+                renderReport(reporte);
 
                 loadingDiv.classList.add('hidden');
                 reportContentDiv.classList.remove('hidden');
@@ -93,22 +91,34 @@
             const fecha = reporte.fecha || new Date().toISOString();
             const modalidad = consentimiento.modalidad || 'No registrada';
             const nombrePaciente = demograficos.nombre || 'Paciente no disponible';
+            const esMenor = demograficos.edad && parseInt(demograficos.edad, 10) < 18;
 
             const reportContentDiv = document.getElementById('reportContent');
             
-            // Construimos todo el HTML del reporte dinámicamente
             reportContentDiv.innerHTML = `
                 <h1 class="text-4xl font-bold text-center">Detalle del Consentimiento de ${nombrePaciente}</h1>
+                
+                <div class="card">
+                    <h2 class="text-2xl font-bold mb-4 border-b pb-2">Términos del Consentimiento Aceptado</h2>
+                    <div class="prose max-w-none space-y-4 text-gray-700 text-sm">
+                        <p>${esMenor ? 
+                            `Yo, ${demograficos.nombreAcudiente || 'N/A'}, con documento de identidad ${demograficos.documentoAcudiente || 'N/A'}, actuando como acudiente en calidad de ${demograficos.tipoAcudiente || 'N/A'}, de ${nombrePaciente}, con documento de identidad ${demograficos.documentoIdentidad || 'N/A'}.` :
+                            `Yo, ${nombrePaciente}, identificado/a con documento de identidad ${demograficos.documentoIdentidad || 'N/A'}, declaro que:`
+                        }</p>
+                        <div class="space-y-2"><h4 class="font-bold">2.1 Confidencialidad:</h4><p>Entiendo, acepto y soy consciente del trabajo profesional que realizará el psicólogo designado, y que este guardará una confidencialidad absoluta con el (la) paciente${esMenor ? ' menor de edad' : ''}, la cual será inviolable, salvo que su integridad física se vea amenazada, y salvo los requerimientos de ley que así mismo pidan levantar la reserva profesional.</p></div>
+                        <div class="space-y-2"><h4 class="font-bold">2.2 Propósito:</h4><p>El propósito es realizar una evaluación y/o intervención psicológica...</p></div>
+                        <div class="space-y-2"><h4 class="font-bold">2.3 Naturaleza del Proceso:</h4><p>Se me ha informado que el proceso puede incluir entrevistas, pruebas psicométricas y tareas inter-sesión...</p></div>
+                        <div class="space-y-2"><h4 class="font-bold">2.4 Evaluación:</h4><p>Autorizo que ${esMenor ? 'le' : 'me'} sean practicadas pruebas psicométricas y demás herramientas diagnósticas que el psicólogo designado así considere necesario, a fin de establecer cabal y puntualmente un diagnóstico asertivo sobre el motivo de consulta del (la) paciente${esMenor ? ' menor de edad' : ''} en consulta.</p></div>
+                        <div class="space-y-2"><h4 class="font-bold">2.5 Costos:</h4><p>Me comprometo ${esMenor ? `como acudiente del (la) paciente menor de edad, ` : ''}a cubrir todos los gastos económicos en que se incurra con motivo de la atención que ${esMenor ? 'recibirá' : 'recibiré'}, habiendo recibido la información de forma clara y oportuna...</p></div>
+                        <div class="space-y-2"><h4 class="font-bold">2.6 Tratamiento de Datos:</h4><p>Autorizo el tratamiento de mis datos personales de acuerdo con la Ley 1581 de 2012...</p></div>
+                    </div>
+                </div>
                 <div class="card">
                     <h2 class="text-2xl font-bold mb-4 border-b pb-2">Información del Paciente</h2>
                     <div class="space-y-3">
                         <div class="detail-item"><span class="detail-label">Nombre:</span> ${nombrePaciente}</div>
                         <div class="detail-item"><span class="detail-label">Email:</span> ${demograficos.email || 'N/A'}</div>
                         <div class="detail-item"><span class="detail-label">Documento:</span> ${demograficos.documentoIdentidad || 'N/A'} (${demograficos.tipoDocumento || 'N/A'})</div>
-                        <div class="detail-item"><span class="detail-label">F. Nacimiento:</span> ${demograficos.fechaNacimiento || 'N/A'} (Edad: ${demograficos.edad || 'N/A'})</div>
-                        <div class="detail-item"><span class="detail-label">Ubicación:</span> ${demograficos.ciudad || ''}${demograficos.departamento ? `, ${demograficos.departamento}` : ''}, ${demograficos.pais || ''}</div>
-                        <div class="detail-item"><span class="detail-label">Teléfono:</span> ${demograficos.telefonoContacto || 'N/A'}</div>
-                        <div class="detail-item"><span class="detail-label">Contacto Emergencia:</span> ${demograficos.contactoEmergenciaNombre || 'N/A'} (${demograficos.contactoEmergenciaTelefono || 'N/A'})</div>
                     </div>
                 </div>
 
