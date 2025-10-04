@@ -135,8 +135,8 @@
 
     <footer class="bg-[#1a1a1a] text-white py-8 mt-16">
         <div class="container mx-auto text-center">
-             <p class="text-gray-400">&copy; 2025 Jorge Arango Castaño - Caminos del Ser. Todos los derechos reservados.</p>
-            <div class="mt-4"><a href="https://www.caminosdelser.co/politicadatos.html" target="_blank" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Política de tratamiento de datos</a><span class="text-gray-600 mx-2">|</span><a href="login.html" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Acceso Terapeuta</a></div>
+             <p class="text-gray-400">&copy; 2025 Marcela Villegas - Psicoterapeutica - Método Yuen. Todos los derechos reservados.</p>
+            <div class="mt-4"><a href="politicadatos.pdf" target="_blank" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Política de tratamiento de datos</a><span class="text-gray-600 mx-2">|</span><a href="login.html" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Acceso Terapeuta</a></div>
         </div>
     </footer>
     
@@ -165,9 +165,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         
         let textoDeclaracion = '';
         if (esMenor) {
-            textoDeclaracion = `Declaro y doy fe de que yo, ${datosDemograficos.nombreAcudiente || '(Nombre Acudiente)'}, en mi calidad de acudiente de ${datosDemograficos.nombreCompleto || '(Nombre Paciente)'}, he leído y comprendido este documento durante una sesión ${modalidadSeleccionada} con el Psicólogo Jorge Arango Castaño, donde se me ha garantizado un espacio para hacer preguntas, las cuales han sido respondidas a mi entera satisfacción.`;
+            textoDeclaracion = `Declaro y doy fe de que yo, ${datosDemograficos.nombreAcudiente || '(Nombre Acudiente)'}, en mi calidad de acudiente de ${datosDemograficos.nombreCompleto || '(Nombre Paciente)'}, he leído y comprendido este documento durante una sesión ${modalidadSeleccionada} con la Psicóloga Marcela Villegas Gallego, donde se me ha garantizado un espacio para hacer preguntas, las cuales han sido respondidas a mi entera satisfacción.`;
         } else {
-            textoDeclaracion = `Declaro y doy fe de que yo, ${datosDemograficos.nombreCompleto || '(Nombre Paciente)'}, he leído y comprendido este documento durante una sesión ${modalidadSeleccionada} con el Psicólogo Jorge Arango Castaño, donde se me ha garantizado un espacio para hacer preguntas, las cuales han sido respondidas a mi entera satisfacción.`;
+            textoDeclaracion = `Declaro y doy fe de que yo, ${datosDemograficos.nombreCompleto || '(Nombre Paciente)'}, he leído y comprendido este documento durante una sesión ${modalidadSeleccionada} con el Psicóloga Marcela Villegas Gallego, donde se me ha garantizado un espacio para hacer preguntas, las cuales han sido respondidas a mi entera satisfacción.`;
         }
         declaracionLabel.textContent = `${textoDeclaracion} Al marcar esta casilla, acepto todos los términos descritos anteriormente.`;
     }
