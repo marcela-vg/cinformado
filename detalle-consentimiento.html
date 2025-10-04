@@ -132,16 +132,41 @@
                 ${demograficos.nombreAcudiente ? `
                 <div class="card">
                     <h2 class="text-2xl font-bold mb-4 border-b pb-2">Información del Acudiente</h2>
-                    ...
+                    <div class="space-y-3">
+                        <div class="detail-item"><span class="detail-label">Nombre:</span> ${demograficos.nombreAcudiente}</div>
+                        <div class="detail-item"><span class="detail-label">Relación:</span> ${demograficos.tipoAcudiente || 'N/A'}</div>
+                        <div class="detail-item"><span class="detail-label">Documento:</span> ${demograficos.documentoAcudiente || 'N/A'}</div>
+                    </div>
                 </div>` : ''}
 
                 <div class="card">
                     <h2 class="text-2xl font-bold mb-4 border-b pb-2">Modalidad y Declaración</h2>
-                    ...
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="font-bold text-gray-600">Modalidad de la Sesión</h3>
+                            <p class="text-lg font-semibold text-gray-800">${modalidad.charAt(0).toUpperCase() + modalidad.slice(1)}</p>
+                        </div>
+                        <div class="pt-4 border-t">
+                            <h3 class="font-bold text-gray-600">Declaración Final Aceptada</h3>
+                            <p class="text-sm italic text-gray-700 bg-gray-50 p-3 rounded-md mt-2">${consentimiento.declaracionFinal || 'Declaración no registrada.'}</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    ...
+                    <div class="card">
+                        <h2 class="text-2xl font-bold mb-4 border-b pb-2">Firma Digital</h2>
+                        <div class="flex justify-center items-center p-4 bg-gray-50 rounded-lg">
+                            <img src="${firmaDigital}" alt="Firma del paciente" class="max-w-full h-auto">
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h2 class="text-2xl font-bold mb-4 border-b pb-2">Metadatos</h2>
+                        <div class="space-y-3">
+                            <div class="detail-item"><span class="detail-label">Fecha de Firma:</span> ${new Date(fecha).toLocaleString('es-CO', { dateStyle: 'full', timeStyle: 'short' })}</div>
+                            <div class="detail-item overflow-x-auto"><span class="detail-label">User Agent:</span> ${consentimiento.userAgent || 'N/A'}</div>
+                        </div>
+                    </div>
                 </div>
             `;
         }
