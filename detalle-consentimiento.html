@@ -22,8 +22,8 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
                 Volver al Portal
             </a>
-            <a href="index.html">
-                <img src="/logoprincipal.png" alt="Logo CInformado" class="h-11 w-auto">
+            <a href="portal-consentimientos.html">
+                <img src="logoprincipal.png" alt="Caminos del Ser Logo" class="h-11 w-auto">
             </a>
             <button id="logoutButton" class="text-sm font-medium text-gray-600 hover:text-[#003366]">Cerrar Sesión</button>
         </div>
@@ -33,6 +33,7 @@
         <div id="loading" class="text-center py-20">
             <h1 class="text-3xl">Cargando detalle del consentimiento...</h1>
         </div>
+
         <div id="reportContent" class="hidden space-y-8">
             <h1 id="reportTitle" class="text-4xl font-bold text-center">Detalle del Consentimiento</h1>
 
@@ -40,23 +41,31 @@
                 <h2 class="text-2xl font-bold mb-4 border-b pb-2">Términos del Consentimiento Aceptado</h2>
                 <div class="prose max-w-none space-y-4 text-gray-700 text-sm">
                     <p id="consentimientoIntro"></p>
-                    <div class="space-y-2"><h4 class="font-bold">2.1 Confidencialidad:</h4><p id="confidencialidadTexto"></p></div>
-                    <div class="space-y-2"><h4 class="font-bold">2.2 Propósito:</h4><p>El propósito es realizar una evaluación y/o intervención psicológica, la cual se llevará a cabo utilizando técnicas y enfoques validados por la psicología como ciencia.</p></div>
-                    <div class="space-y-2"><h4 class="font-bold">2.3 Naturaleza del Proceso:</h4><p id="naturalezaTexto"></p></div>
-                    <div class="space-y-2"><h4 class="font-bold">2.4 Evaluación:</h4><p id="evaluacionTexto"></p></div>
-                    <div class="space-y-2"><h4 class="font-bold">2.5 Costos:</h4><p id="costosTexto"></p></div>
-                    <div class="space-y-2"><h4 class="font-bold">2.6 Tratamiento de Datos:</h4><p id="datosTexto"></p></div>
+                    <div class="space-y-2">
+                        <h4 class="font-bold">2.1 Confidencialidad:</h4>
+                        <p id="confidencialidadTexto"></p>
+                    </div>
+                     <div class="space-y-2">
+                        <h4 class="font-bold">2.2 Propósito de la Intervención:</h4>
+                        <p>El propósito es realizar una evaluación y/o intervención psicológica, la cual se llevará a cabo utilizando técnicas y enfoques validados por la psicología como ciencia.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <h4 class="font-bold">2.3 Naturaleza del Proceso:</h4>
+                        <p>Se me ha informado que el proceso puede incluir entrevistas, pruebas psicométricas y tareas inter-sesión, y que mi participación activa es fundamental para el éxito del mismo.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <h4 class="font-bold">2.4 Proceso de evaluación:</h4>
+                        <p id="evaluacionTexto"></p>
+                    </div>
+                    <div class="space-y-2">
+                        <h4 class="font-bold">2.5 Costos económicos:</h4>
+                        <p id="costosTexto"></p>
+                    </div>
+                    <div class="space-y-2">
+                        <h4 class="font-bold">2.6 Tratamiento de Datos:</h4>
+                        <p>Autorizo el tratamiento de mis datos personales de acuerdo con la Ley 1581 de 2012 y la política de tratamiento de datos de "Caminos del Ser", la cual he podido consultar.</p>
+                    </div>
                 </div>
-            </div>
-            
-            <div id="modalidadCard" class="card">
-                <h2 class="text-2xl font-bold mb-4 border-b pb-2">Modalidad de esta Sesión de Consentimiento</h2>
-                <div id="modalidadContent" class="text-lg"></div>
-            </div>
-
-            <div id="declaracionCard" class="card">
-                <h2 class="text-2xl font-bold mb-4 border-b pb-2">Declaración y Aceptación Final</h2>
-                <div id="declaracionContent" class="text-gray-800 bg-gray-50 p-4 rounded-md"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -64,10 +73,13 @@
                     <h2 class="text-2xl font-bold mb-4 border-b pb-2">Información del Paciente</h2>
                     <div id="demographicsContent" class="space-y-3"></div>
                 </div>
+
                 <div class="space-y-8">
                     <div class="card">
                         <h2 class="text-2xl font-bold mb-4 border-b pb-2">Firma Digital</h2>
-                        <div class="flex justify-center items-center p-4 bg-gray-50 rounded-lg"><img id="signatureImage" src="" alt="Firma del paciente" class="max-w-full h-auto"></div>
+                        <div class="flex justify-center items-center p-4 bg-gray-50 rounded-lg">
+                            <img id="signatureImage" src="" alt="Firma del paciente" class="max-w-full h-auto">
+                        </div>
                     </div>
                     <div class="card">
                         <h2 class="text-2xl font-bold mb-4 border-b pb-2">Metadatos</h2>
@@ -85,25 +97,19 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const isAuthenticated = sessionStorage.getItem('consultorAuth');
-            if (isAuthenticated !== 'true') {
+            if (sessionStorage.getItem('consultorAuth') !== 'true') {
                 window.location.href = 'login.html';
                 return;
             }
+            
             document.getElementById('logoutButton').addEventListener('click', () => {
                 sessionStorage.removeItem('consultorAuth');
+                sessionStorage.removeItem('apiSecret'); // Limpiamos el pase
                 window.location.href = 'login.html';
             });
+            
             fetchReport();
         });
-
-        // La función handleAuthError ya no es necesaria si no se envía el token
-        // function handleAuthError() {
-        //     sessionStorage.removeItem('consultorAuth');
-        //     document.getElementById('loading').classList.add('hidden');
-        //     document.getElementById('authError').classList.remove('hidden');
-        //     setTimeout(() => { window.location.href = 'login.html'; }, 2000);
-        // }
 
         async function fetchReport() {
             const loadingDiv = document.getElementById('loading');
@@ -117,95 +123,83 @@
             }
 
             try {
-                // Se revierte el fetch a su estado original sin headers de autorización
-                const response = await fetch(`/api/get-consentimiento-individual?id=${id}`);
+                // Obtenemos el "pase de acceso" de la sesión del navegador.
+                const secret = sessionStorage.getItem('apiSecret');
+                if (!secret) {
+                    window.location.href = 'login.html'; // Si no hay pase, no está autorizado.
+                    return;
+                }
+
+                // Enviamos el "pase de acceso" en los encabezados.
+                const response = await fetch(`/api/get-consentimiento-individual?id=${id}`, {
+                    headers: { 'X-Auth-Secret': secret }
+                });
 
                 if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({ message: 'Error desconocido del servidor o API no accesible.' }));
-                    throw new Error(errorData.message);
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'No se pudo cargar el consentimiento.');
                 }
                 const reporte = await response.json();
                 
-                displayReport(reporte); // Llama a la función para mostrar los datos
+                displayReport(reporte);
 
                 loadingDiv.classList.add('hidden');
                 reportContentDiv.classList.remove('hidden');
 
             } catch (error) {
-                console.error("Error al cargar o procesar el reporte individual:", error);
-                loadingDiv.innerHTML = `<h1 class="text-3xl text-red-600">Error: ${error.message || 'Hubo un problema al cargar el reporte.'}</h1><p class="mt-4">Revise la consola del navegador (F12) para más detalles.</p>`;
+                console.error("Error al cargar el reporte individual:", error);
+                loadingDiv.innerHTML = `<h1 class="text-3xl text-red-600">Error: ${error.message}</h1>`;
             }
         }
-        
-        // FUNCIÓN displayReport DEFENSIVA para manejar datos faltantes
+
         function displayReport(reporte) {
-            const demograficos = reporte.demograficos || {};
-            const consentimiento = reporte.consentimiento || {};
-            const firmaDigital = reporte.firmaDigital || '';
-            const fecha = reporte.fecha || new Date().toISOString();
+            const { demograficos, consentimiento, firmaDigital, fecha } = reporte;
             
-            const modalidad = consentimiento.modalidad || 'No registrada';
-            const nombrePaciente = demograficos.nombre || 'Paciente no disponible';
+            document.getElementById('reportTitle').textContent += ` de ${demograficos.nombre}`;
 
-            document.getElementById('reportTitle').textContent = `Detalle del Consentimiento de ${nombrePaciente}`;
-            
             const demoDiv = document.getElementById('demographicsContent');
-            demoDiv.innerHTML = 
-                `<div class="detail-item"><span class="detail-label">Nombre Completo:</span> ${nombrePaciente}</div>` +
-                `<div class="detail-item"><span class="detail-label">Email:</span> ${demograficos.email || 'No disponible'}</div>` +
-                `<div class="detail-item"><span class="detail-label">Documento:</span> ${demograficos.documentoIdentidad || 'N/A'} (${demograficos.tipoDocumento || 'N/A'})</div>` +
-                `<div class="detail-item"><span class="detail-label">F. Nacimiento:</span> ${demograficos.fechaNacimiento || 'N/A'} (Edad: ${demograficos.edad || 'N/A'})</div>` +
-                `<div class="detail-item"><span class="detail-label">País:</span> ${demograficos.pais || 'No disponible'}</div>` +
-                `<div class="detail-item"><span class="detail-label">Ubicación:</span> ${demograficos.ciudad || ''}${demograficos.departamento ? `, ${demograficos.departamento}` : ''}</div>` +
-                `<div class="detail-item"><span class="detail-label">Dirección:</span> ${demograficos.direccion || 'No disponible'}</div>` +
-                `<div class="detail-item"><span class="detail-label">Teléfono:</span> ${demograficos.telefonoContacto || 'No disponible'}</div>` +
-                `<div class="detail-item"><span class="detail-label">Contacto Emergencia:</span> ${demograficos.contactoEmergenciaNombre || 'N/A'} (${demograficos.contactoEmergenciaTelefono || 'N/A'})</div>`;
-
+            demoDiv.innerHTML = `
+                <div class="detail-item"><span class="detail-label">Nombre Completo:</span> ${demograficos.nombre}</div>
+                <div class="detail-item"><span class="detail-label">Email:</span> ${demograficos.email}</div>
+                <div class="detail-item"><span class="detail-label">Documento:</span> ${demograficos.documentoIdentidad} (${demograficos.tipoDocumento})</div>
+                <div class="detail-item"><span class="detail-label">Fecha de Nacimiento:</span> ${demograficos.fechaNacimiento} (Edad: ${demograficos.edad})</div>
+                <div class="detail-item"><span class="detail-label">País:</span> ${demograficos.pais}</div>
+                <div class="detail-item"><span class="detail-label">Ubicación:</span> ${demograficos.ciudad || ''}${demograficos.departamento ? `, ${demograficos.departamento}` : ''}</div>
+                <div class="detail-item"><span class="detail-label">Dirección:</span> ${demograficos.direccion}</div>
+                <div class="detail-item"><span class="detail-label">Teléfono:</span> ${demograficos.telefonoContacto}</div>
+                <div class="detail-item"><span class="detail-label">Contacto Emergencia:</span> ${demograficos.contactoEmergenciaNombre} (${demograficos.contactoEmergenciaTelefono})</div>
+            `;
+            
             document.getElementById('signatureImage').src = firmaDigital;
+
+            const metadataDiv = document.getElementById('metadataContent');
             const fechaFormateada = new Date(fecha).toLocaleString('es-CO', { dateStyle: 'full', timeStyle: 'short' });
-            document.getElementById('metadataContent').innerHTML = `<div class="detail-item"><span class="detail-label">Fecha de Firma:</span> ${fechaFormateada}</div><div class="detail-item overflow-x-auto"><span class="detail-label">User Agent:</span> ${consentimiento.userAgent || 'No disponible'}</div>`;
+            metadataDiv.innerHTML = `<div class="detail-item"><span class="detail-label">Fecha de Firma:</span> ${fechaFormateada}</div><div class="detail-item overflow-x-auto"><span class="detail-label">User Agent:</span> ${consentimiento.userAgent}</div>`;
 
             if (demograficos.nombreAcudiente) {
                 const acudienteCard = document.getElementById('acudienteCard');
+                const acudienteDiv = document.getElementById('acudienteContent');
+                acudienteDiv.innerHTML = `<div class="detail-item"><span class="detail-label">Nombre:</span> ${demograficos.nombreAcudiente}</div><div class="detail-item"><span class="detail-label">Relación:</span> ${demograficos.tipoAcudiente}</div><div class="detail-item"><span class="detail-label">Documento:</span> ${demograficos.documentoAcudiente}</div>`;
                 acudienteCard.classList.remove('hidden');
-                document.getElementById('acudienteContent').innerHTML = 
-                    `<div class="detail-item"><span class="detail-label">Nombre:</span> ${demograficos.nombreAcudiente}</div>` +
-                    `<div class="detail-item"><span class="detail-label">Relación:</span> ${demograficos.tipoAcudiente || 'No disponible'}</div>` +
-                    `<div class="detail-item"><span class="detail-label">Documento:</span> ${demograficos.documentoAcudiente || 'No disponible'}</div>`;
-            } else {
-                 document.getElementById('acudienteCard').classList.add('hidden'); // Asegurarse de que esté oculta si no hay acudiente
             }
             
-            const esMenor = demograficos.edad && parseInt(demograficos.edad, 10) < 18;
-            const declaranteNombre = esMenor ? demograficos.nombreAcudiente : nombrePaciente;
-            const declaranteDocumento = esMenor ? demograficos.documentoAcudiente : demograficos.documentoIdentidad;
-            const declaranteTipoAcudiente = esMenor ? `, como ${demograficos.tipoAcudiente}` : '';
-            
-            // Texto introductório al consentimiento
-            document.getElementById('consentimientoIntro').textContent = `Yo, ${declaranteNombre}, con documento ${declaranteDocumento}${declaranteTipoAcudiente} de ${nombrePaciente}, declaro que:`;
-            
-            document.getElementById('confidencialidadTexto').textContent = 'Entiendo, acepto y soy consciente del trabajo profesional que realizará el psicólogo designado, y que este guardará una confidencialidad absoluta, la cual será inviolable, salvo que la integridad física del paciente se vea amenazada o por requerimientos de ley.';
-            document.getElementById('naturalezaTexto').textContent = 'Se me ha informado que el proceso puede incluir entrevistas, pruebas psicométricas y tareas, y que mi participación activa es fundamental. Entiendo y acepto que las sesiones podrán ser presenciales o virtuales según se acuerde previamente, garantizando en ambos casos el cumplimiento de la ley.';
-            document.getElementById('evaluacionTexto').textContent = 'Autorizo que sean practicadas las pruebas y herramientas diagnósticas que el psicólogo considere necesarias para establecer un diagnóstico asertivo.';
-            document.getElementById('costosTexto').textContent = 'Me comprometo a cubrir todos los gastos económicos de la atención, habiendo recibido la información de forma clara y oportuna.';
-            document.getElementById('datosTexto').textContent = `Autorizo el tratamiento de mis datos personales de acuerdo con la Ley 1581 de 2012 y la política de tratamiento de datos de "CInformado", la cual he podido consultar.`;
+            const esMenor = parseInt(demograficos.edad, 10) < 18;
+            const intro = document.getElementById('consentimientoIntro');
+            const confidencialidad = document.getElementById('confidencialidadTexto');
+            const evaluacion = document.getElementById('evaluacionTexto');
+            const costos = document.getElementById('costosTexto');
 
-            // Rellenar la tarjeta de Modalidad
-            const modalidadContentDiv = document.getElementById('modalidadContent');
-            modalidadContentDiv.innerHTML = `
-                <div class="flex items-center space-x-4">
-                    <span class="font-semibold">${modalidad.charAt(0).toUpperCase() + modalidad.slice(1)}</span>
-                    <span class="text-green-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </span>
-                </div>`;
-
-            // Rellenar la declaración de aceptación completa
-            const declaracionDiv = document.getElementById('declaracionContent');
-            const textoDeclaracion = consentimiento.declaracionFinal || `Declaro y doy fe de que ${esMenor ? `yo, ${declaranteNombre},` : `yo, ${nombrePaciente},`} he leído y comprendido este documento durante una sesión ${modalidad} con el Psicólogo Jorge Arango Castaño, donde se me ha garantizado un espacio para hacer preguntas, las cuales han sido respondidas a mi entera satisfacción. Al marcar esta casilla, acepto todos los términos descritos anteriormente.`;
-            declaracionDiv.innerHTML = `<p class="font-normal text-sm">${textoDeclaracion}</p>`;
+            if (esMenor) {
+                intro.textContent = `Yo, ${demograficos.nombreAcudiente}, con documento de identidad ${demograficos.documentoAcudiente}, actuando como acudiente en calidad de ${demograficos.tipoAcudiente}, de ${demograficos.nombre}, con documento de identidad ${demograficos.documentoIdentidad}.`;
+                confidencialidad.textContent = 'Entiendo, acepto y soy consciente del trabajo profesional que realizará el psicólogo designado, y que este guardará una confidencialidad absoluta con el (la) paciente menor de edad, la cual será inviolable, salvo que su integridad física se vea amenazada, y salvo los requerimientos de ley que así mismo pidan levantar la reserva profesional.';
+                evaluacion.textContent = 'Autorizo que le sean practicadas pruebas psicométricas y demás herramientas diagnósticas que el psicólogo designado así considere necesario, a fin de establecer cabal y puntualmente un diagnóstico asertivo sobre el motivo de consulta del (la) paciente menor de edad en consulta.';
+                costos.textContent = 'Me comprometo como acudiente del (la) paciente menor de edad, a cubrir todos los gastos económicos en que se incurra con motivo de la atención que recibirá, habiendo recibido la información de forma clara y oportuna y habiendo tenido la oportunidad de aceptar o rechazar dichas atenciones psicológicas y los costos asociados.';
+            } else {
+                intro.textContent = `Yo, ${demograficos.nombre}, identificado/a con documento de identidad ${demograficos.documentoIdentidad}, declaro que:`;
+                confidencialidad.textContent = 'Entiendo, acepto y soy consciente del trabajo profesional que realizará el psicólogo designado, y que este guardará una confidencialidad absoluta con el (la) paciente, la cual será inviolable, salvo que su integridad física se vea amenazada, y salvo los requerimientos de ley que así mismo pidan levantar la reserva profesional.';
+                evaluacion.textContent = 'Autorizo que sean practicadas pruebas psicométricas y demás herramientas diagnósticas que el psicólogo designado así considere necesario, a fin de establecer cabal y puntualmente un diagnóstico asertivo sobre el motivo de consulta.';
+                costos.textContent = 'Me comprometo a cubrir todos los gastos económicos en que se incurra con motivo de la atención que recibiré, habiendo recibido la información de forma clara y oportuna y habiendo tenido la oportunidad de aceptar o rechazar dichas atenciones psicológicas y los costos asociados.';
+            }
         }
     </script>
 </body>
