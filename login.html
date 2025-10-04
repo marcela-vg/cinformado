@@ -1,109 +1,74 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso a Terapeuta - Marcela Villegas G.</title>
+    <title>Acceso Terapeuta - CInformado</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #F8F7F2;
-            color: #4A4A4A;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        main {
-            flex-grow: 1;
-        }
-        .btn-brand {
-            background-color: #003366;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 9999px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .btn-brand:hover {
-            background-color: #002244;
-            transform: translateY(-2px);
-            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
-        }
-        .card {
-            background-color: white;
-            border-radius: 16px;
-            padding: 2.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        .input-styled {
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            padding: 10px 15px;
-            width: 100%;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .input-styled:focus {
-            outline: none;
-            border-color: #003366;
-            box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.2);
-        }
+        body { font-family: 'Poppins', sans-serif; background-color: #F8F7F2; color: #4A4A4A; }
+        .btn-brand { background-color: #003366; color: white; padding: 12px 30px; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; width: 100%;}
+        .card { background-color: white; border-radius: 16px; padding: 2.5rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); }
+        .input-styled { border: 1px solid #d1d5db; border-radius: 8px; padding: 10px 15px; width: 100%; }
+        .input-styled:focus { outline: none; border-color: #003366; box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.2); }
     </style>
 </head>
-<body class="antialiased">
-
+<body class="flex flex-col min-h-screen">
     <header class="bg-white shadow-sm">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html">
-                <img src="/logoprincipal.png" alt="Logo Marcela Villegas" class="h-11 w-auto">
-            </a>
+        <div class="container mx-auto px-6 py-4">
+            <a href="index.html"><img src="logoprincipal.png" alt="Caminos del Ser Logo" class="h-11 w-auto"></a>
         </div>
     </header>
-
-    <main class="container mx-auto px-6 py-12 flex items-center justify-center">
-        <div class="w-full max-w-md">
+    <main class="flex-grow container mx-auto px-6 py-12 flex items-center justify-center">
+        <div class="max-w-md w-full">
             <div class="card">
-                <div class="text-center mb-8">
-                    <h1 class="text-3xl font-bold">Acceso a Terapeuta</h1>
-                    <p class="text-gray-500 mt-2">Ingresa tus credenciales para continuar.</p>
-                </div>
-                <form id="loginForm">
-                    <!-- INICIO DE CAMBIOS -->
-                    <div class="mb-6">
-                        <label for="password" class="block mb-2 font-medium">Contraseña</label>
-                        <div class="relative">
-                            <input type="password" id="password" class="input-styled pr-10" required>
-                            <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none">
-                                <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                </svg>
-                                <svg id="eye-slashed-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064-7 9.542-7 .847 0 1.67.127 2.454.364m5.034 2.118a10.027 10.027 0 011.056 2.518C20.268 9.057 16.477 12 12 12a10.027 10.027 0 01-2.008-.215M17.156 5.844a8.03 8.03 0 01-1.332-1.332m-1.332-1.332L3 21" />
-                                </svg>
-                            </button>
-                        </div>
+                <h1 class="text-2xl font-bold text-center mb-2 text-[#003366]">Acceso al Portal</h1>
+                <p class="text-center text-gray-500 mb-6">Ingresa tus credenciales de terapeuta.</p>
+                <form id="loginForm" class="space-y-6">
+                    <div>
+                        <label for="username" class="block mb-2 font-medium">Usuario</label>
+                        <input type="text" id="username" name="username" class="input-styled" required>
                     </div>
-                    <!-- FIN DE CAMBIOS -->
-                    <div id="errorMessage" class="text-red-600 text-center mb-4 hidden"></div>
-                    <button type="submit" class="btn-brand w-full">Ingresar al Portal</button>
+                    <div>
+                        <label for="password" class="block mb-2 font-medium">Contraseña</label>
+                        <input type="password" id="password" name="password" class="input-styled" required>
+                    </div>
+                    <div id="login-error" class="text-red-600 text-center font-semibold hidden">Usuario o contraseña incorrectos.</div>
+                    <div class="pt-2"><button type="submit" class="btn-brand">Ingresar</button></div>
                 </form>
             </div>
         </div>
     </main>
+    <footer class="bg-[#1a1a1a] text-white py-6"><div class="container mx-auto text-center"><p class="text-sm text-gray-400">&copy; 2025 Jorge Arango Castaño - Caminos del Ser.</p></div></footer>
 
-    <footer class="bg-[#1a1a1a] text-white py-8">
-        <div class="container mx-auto text-center">
-            <p class="text-gray-400">&copy; 2025 Marcela Villegas Gallego - MétodoYuen / Acupuntura / Psicología. Todos los derechos reservados.</p>
-        </div>
-    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem('consultorAuth') === 'true') {
+                window.location.href = 'portal-consentimientos.html';
+                return;
+            }
+            const loginForm = document.getElementById('loginForm');
+            const errorDiv = document.getElementById('login-error');
 
-    <script src="login.js" defer></script>
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                const USUARIO_VALIDO = 'jorge.arango';
+                const CLAVE_VALIDA = 'CieloSinLimite2025';
 
+                if (username === USUARIO_VALIDO && password === CLAVE_VALIDA) {
+                    sessionStorage.setItem('consultorAuth', 'true');
+                    // --- CAMBIO CLAVE: Guardamos la contraseña como la "llave secreta" ---
+                    sessionStorage.setItem('apiSecret', CLAVE_VALIDA);
+                    window.location.href = 'portal-consentimientos.html';
+                } else {
+                    errorDiv.classList.remove('hidden');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
-
