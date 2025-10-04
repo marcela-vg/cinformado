@@ -9,45 +9,26 @@
     <style>
         body { font-family: 'Poppins', sans-serif; background-color: #F8F7F2; color: #4A4A4A; }
         .btn-brand { background-color: #003366; color: white; padding: 12px 30px; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; width: 100%;}
+        .btn-brand:disabled { background-color: #99aabb; cursor-not-allowed; }
         .card { background-color: white; border-radius: 16px; padding: 2.5rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); }
         .input-styled { border: 1px solid #d1d5db; border-radius: 8px; padding: 10px 15px; width: 100%; }
         .input-styled:focus { outline: none; border-color: #003366; box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.2); }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
-    <header class="bg-white shadow-sm">
-        <div class="container mx-auto px-6 py-4">
-            <a href="index.html"><img src="logoprincipal.png" alt="Caminos del Ser Logo" class="h-11 w-auto"></a>
-        </div>
-    </header>
+    <header class="bg-white shadow-sm"><div class="container mx-auto px-6 py-4"><a href="index.html"><img src="logoprincipal.png" alt="Caminos del Ser Logo" class="h-11 w-auto"></a></div></header>
     <main class="flex-grow container mx-auto px-6 py-12 flex items-center justify-center">
         <div class="max-w-md w-full">
             <div class="card">
                 <h1 class="text-2xl font-bold text-center mb-2 text-[#003366]">Acceso al Portal</h1>
-                <p class="text-center text-gray-500 mb-6">Ingresa tus credenciales de terapeuta.</p>
+                <p class="text-center text-gray-500 mb-6">Ingresa la contraseña para continuar.</p>
                 <form id="loginForm" class="space-y-6">
                     <div>
-                        <label for="username" class="block mb-2 font-medium">Usuario</label>
-                        <input type="text" id="username" name="username" class="input-styled" required>
-                    </div>
-
-                    <div>
                         <label for="password" class="block mb-2 font-medium">Contraseña</label>
-                        <div class="relative">
-                            <input type="password" id="password" name="password" class="input-styled pr-10" required>
-                            <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700">
-                                <svg id="eye-open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                </svg>
-                                <svg id="eye-closed" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064-7 9.542-7 .847 0 1.67.127 2.455.364m0 11.455A9.986 9.986 0 0112 19c-4.478 0-8.268-2.943-9.542-7a10.05 10.05 0 013.454-4.545m1.546-1.546A9.986 9.986 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.986 9.986 0 01-3.454 4.545m-1.546 1.546l-4-4-4 4" />
-                                </svg>
-                            </button>
-                        </div>
+                        <input type="password" id="password" name="password" class="input-styled" required>
                     </div>
-                    <div id="login-error" class="text-red-600 text-center font-semibold hidden">Usuario o contraseña incorrectos.</div>
-                    <div class="pt-2"><button type="submit" class="btn-brand">Ingresar</button></div>
+                    <div id="login-error" class="text-red-600 text-center font-semibold hidden"></div>
+                    <div class="pt-2"><button type="submit" id="submitButton" class="btn-brand">Ingresar</button></div>
                 </form>
             </div>
         </div>
@@ -56,42 +37,45 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            if (sessionStorage.getItem('consultorAuth') === 'true') {
-                window.location.href = 'portal-consentimientos.html';
-                return;
-            }
             const loginForm = document.getElementById('loginForm');
-            const errorDiv = document.getElementById('login-error');
-            
-            // ========= INICIO DE LA MODIFICACIÓN: Lógica del botón de contraseña =========
-            const togglePassword = document.getElementById('togglePassword');
             const passwordInput = document.getElementById('password');
-            const eyeOpen = document.getElementById('eye-open');
-            const eyeClosed = document.getElementById('eye-closed');
+            const errorDiv = document.getElementById('login-error');
+            const submitButton = document.getElementById('submitButton');
 
-            togglePassword.addEventListener('click', () => {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                eyeOpen.classList.toggle('hidden');
-                eyeClosed.classList.toggle('hidden');
-            });
-            // ========= FIN DE LA MODIFICACIÓN =========
-
-            loginForm.addEventListener('submit', (e) => {
+            loginForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const username = document.getElementById('username').value;
+                errorDiv.classList.add('hidden');
+                submitButton.disabled = true;
+                submitButton.textContent = 'Verificando...';
+
                 const password = passwordInput.value;
-                
-                const USUARIO_VALIDO = 'jorge.arango';
-                const CLAVE_VALIDA = 'CieloSinLimite2025';
 
-                if (username === USUARIO_VALIDO && password === CLAVE_VALIDA) {
-                    sessionStorage.setItem('consultorAuth', 'true');
+                try {
+                    const response = await fetch('/api/authenticate', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ password: password })
+                    });
 
-                    sessionStorage.setItem('apiSecret', CLAVE_VALIDA);
-                    window.location.href = 'portal-consentimientos.html';
-                } else {
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        // ¡Éxito! El servidor validó la contraseña
+                        sessionStorage.setItem('consultorAuth', 'true');
+                        sessionStorage.setItem('apiSecret', password); // Guardamos la contraseña validada como llave
+                        window.location.href = 'portal-consentimientos.html';
+                    } else {
+                        // Error de autenticación
+                        errorDiv.textContent = result.message || 'Error de autenticación.';
+                        errorDiv.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    // Error de red o conexión
+                    errorDiv.textContent = 'No se pudo conectar con el servidor. Intenta de nuevo.';
                     errorDiv.classList.remove('hidden');
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Ingresar';
                 }
             });
         });
