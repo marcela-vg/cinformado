@@ -62,6 +62,7 @@
                 <h2 class="text-2xl font-bold mb-4 border-b pb-2">Declaración y Aceptación Final</h2>
                 <div id="declaracionContent" class="text-gray-800 bg-gray-50 p-4 rounded-md"></div>
             </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="card">
                     <h2 class="text-2xl font-bold mb-4 border-b pb-2">Información del Paciente</h2>
@@ -88,14 +89,15 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const sessionToken = sessionStorage.getItem('sessionToken');
-            if (!sessionToken) {
+            // Se cambia la variable de sesión para que coincida con el login
+            const isAuthenticated = sessionStorage.getItem('consultorAuth');
+            if (isAuthenticated !== 'true') {
                 window.location.href = 'login.html';
                 return;
             }
             
             document.getElementById('logoutButton').addEventListener('click', () => {
-                sessionStorage.removeItem('sessionToken');
+                sessionStorage.removeItem('consultorAuth');
                 window.location.href = 'login.html';
             });
             
@@ -103,7 +105,7 @@
         });
 
         function handleAuthError() {
-            sessionStorage.removeItem('sessionToken');
+            sessionStorage.removeItem('consultorAuth');
             document.getElementById('loading').classList.add('hidden');
             document.getElementById('authError').classList.remove('hidden');
             setTimeout(() => { window.location.href = 'login.html'; }, 2000);
@@ -111,3 +113,31 @@
 
         async function fetchReport() {
             const loadingDiv = document.getElementById('loading');
+            const reportContentDiv = document.getElementById('reportContent');
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+
+            if (!id) {
+                loadingDiv.innerHTML = '<h1 class="text-3xl text-red-600">ID de consentimiento no proporcionado.</h1>';
+                return;
+            }
+
+            try {
+                // Se quita la autorización por Header ya que no se está usando un token JWT complejo
+                const response = await fetch(`/api/get-consentimiento-individual?id=${id}`);
+
+                if (response.status === 401 || response.status === 403) return handleAuthError();
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'No se pudo cargar el consentimiento.');
+                }
+                const reporte = await response.json();
+                
+                displayReport(reporte);
+
+                loadingDiv.classList.add('hidden');
+                reportContentDiv.classList.remove('hidden');
+
+            } catch (error) {
+                console.error("Error al cargar el reporte individual:", error);
+                loadingDiv.innerHTML = `<h1 class="text-3xl text-red-
