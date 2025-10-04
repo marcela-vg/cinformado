@@ -30,9 +30,21 @@
                         <label for="username" class="block mb-2 font-medium">Usuario</label>
                         <input type="text" id="username" name="username" class="input-styled" required>
                     </div>
+
                     <div>
                         <label for="password" class="block mb-2 font-medium">Contraseña</label>
-                        <input type="password" id="password" name="password" class="input-styled" required>
+                        <div class="relative">
+                            <input type="password" id="password" name="password" class="input-styled pr-10" required>
+                            <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700">
+                                <svg id="eye-open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                                <svg id="eye-closed" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064-7 9.542-7 .847 0 1.67.127 2.455.364m0 11.455A9.986 9.986 0 0112 19c-4.478 0-8.268-2.943-9.542-7a10.05 10.05 0 013.454-4.545m1.546-1.546A9.986 9.986 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.986 9.986 0 01-3.454 4.545m-1.546 1.546l-4-4-4 4" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                     <div id="login-error" class="text-red-600 text-center font-semibold hidden">Usuario o contraseña incorrectos.</div>
                     <div class="pt-2"><button type="submit" class="btn-brand">Ingresar</button></div>
@@ -50,18 +62,32 @@
             }
             const loginForm = document.getElementById('loginForm');
             const errorDiv = document.getElementById('login-error');
+            
+            // ========= INICIO DE LA MODIFICACIÓN: Lógica del botón de contraseña =========
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+            const eyeOpen = document.getElementById('eye-open');
+            const eyeClosed = document.getElementById('eye-closed');
+
+            togglePassword.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                eyeOpen.classList.toggle('hidden');
+                eyeClosed.classList.toggle('hidden');
+            });
+            // ========= FIN DE LA MODIFICACIÓN =========
 
             loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
+                const password = passwordInput.value;
                 
                 const USUARIO_VALIDO = 'jorge.arango';
                 const CLAVE_VALIDA = 'CieloSinLimite2025';
 
                 if (username === USUARIO_VALIDO && password === CLAVE_VALIDA) {
                     sessionStorage.setItem('consultorAuth', 'true');
-                    // --- CAMBIO CLAVE: Guardamos la contraseña como la "llave secreta" ---
+
                     sessionStorage.setItem('apiSecret', CLAVE_VALIDA);
                     window.location.href = 'portal-consentimientos.html';
                 } else {
