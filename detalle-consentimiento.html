@@ -36,10 +36,8 @@
         <div id="authError" class="hidden text-center py-20">
             <h1 class="text-3xl text-red-600">Error de autenticación. Redirigiendo...</h1>
         </div>
-
         <div id="reportContent" class="hidden space-y-8">
             <h1 id="reportTitle" class="text-4xl font-bold text-center">Detalle del Consentimiento</h1>
-
             <div class="card">
                 <h2 class="text-2xl font-bold mb-4 border-b pb-2">Términos del Consentimiento Aceptado</h2>
                 <div class="prose max-w-none space-y-4 text-gray-700 text-sm">
@@ -52,17 +50,14 @@
                     <div class="space-y-2"><h4 class="font-bold">2.6 Tratamiento de Datos:</h4><p id="datosTexto"></p></div>
                 </div>
             </div>
-            
             <div id="modalidadCard" class="card">
                 <h2 class="text-2xl font-bold mb-4 border-b pb-2">Modalidad de esta Sesión de Consentimiento</h2>
                 <div id="modalidadContent" class="text-lg"></div>
             </div>
-
             <div id="declaracionCard" class="card">
                 <h2 class="text-2xl font-bold mb-4 border-b pb-2">Declaración y Aceptación Final</h2>
                 <div id="declaracionContent" class="text-gray-800 bg-gray-50 p-4 rounded-md"></div>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="card">
                     <h2 class="text-2xl font-bold mb-4 border-b pb-2">Información del Paciente</h2>
@@ -79,7 +74,6 @@
                     </div>
                 </div>
             </div>
-            
             <div id="acudienteCard" class="card hidden">
                 <h2 class="text-2xl font-bold mb-4 border-b pb-2">Información del Acudiente</h2>
                 <div id="acudienteContent" class="space-y-3"></div>
@@ -89,27 +83,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Se cambia la variable de sesión para que coincida con el login
             const isAuthenticated = sessionStorage.getItem('consultorAuth');
             if (isAuthenticated !== 'true') {
                 window.location.href = 'login.html';
                 return;
             }
-            
             document.getElementById('logoutButton').addEventListener('click', () => {
                 sessionStorage.removeItem('consultorAuth');
                 window.location.href = 'login.html';
             });
-            
             fetchReport();
         });
-
-        function handleAuthError() {
-            sessionStorage.removeItem('consultorAuth');
-            document.getElementById('loading').classList.add('hidden');
-            document.getElementById('authError').classList.remove('hidden');
-            setTimeout(() => { window.location.href = 'login.html'; }, 2000);
-        }
 
         async function fetchReport() {
             const loadingDiv = document.getElementById('loading');
@@ -123,13 +107,10 @@
             }
 
             try {
-                // Se quita la autorización por Header ya que no se está usando un token JWT complejo
                 const response = await fetch(`/api/get-consentimiento-individual?id=${id}`);
-
-                if (response.status === 401 || response.status === 403) return handleAuthError();
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'No se pudo cargar el consentimiento.');
+                    const errorData = await response.json().catch(() => ({ message: 'Error desconocido del servidor.' }));
+                    throw new Error(errorData.message);
                 }
                 const reporte = await response.json();
                 
@@ -140,4 +121,73 @@
 
             } catch (error) {
                 console.error("Error al cargar el reporte individual:", error);
-                loadingDiv.innerHTML = `<h1 class="text-3xl text-red-
+                loadingDiv.innerHTML = `<h1 class="text-3xl text-red-600">Error al procesar los datos: ${error.message}</h1><p class="mt-4">Revise la consola del navegador para más detalles (F12).</p>`;
+            }
+        }
+        
+        // ========= FUNCIÓN "DEFENSIVA" COMPLETAMENTE REESCRITA =========
+        function displayReport(reporte) {
+            // Se proveen valores por defecto para evitar errores si los objetos no existen
+            const demograficos = reporte.demograficos || {};
+            const consentimiento = reporte.consentimiento || {};
+            const firmaDigital = reporte.firmaDigital || '';
+            const fecha = reporte.fecha || new Date().toISOString();
+            
+            const modalidad = consentimiento.modalidad || 'No registrada';
+            const nombrePaciente = demograficos.nombre || 'Paciente no disponible';
+
+            document.getElementById('reportTitle').textContent += ` de ${nombrePaciente}`;
+            
+            const demoDiv = document.getElementById('demographicsContent');
+            demoDiv.innerHTML = 
+                `<div class="detail-item"><span class="detail-label">Nombre Completo:</span> ${nombrePaciente}</div>` +
+                `<div class="detail-item"><span class="detail-label">Email:</span> ${demograficos.email || 'No disponible'}</div>` +
+                `<div class="detail-item"><span class="detail-label">Documento:</span> ${demograficos.documentoIdentidad || 'N/A'} (${demograficos.tipoDocumento || 'N/A'})</div>` +
+                `<div class="detail-item"><span class="detail-label">F. Nacimiento:</span> ${demograficos.fechaNacimiento || 'N/A'} (Edad: ${demograficos.edad || 'N/A'})</div>` +
+                `<div class="detail-item"><span class="detail-label">País:</span> ${demograficos.pais || 'No disponible'}</div>` +
+                `<div class="detail-item"><span class="detail-label">Ubicación:</span> ${demograficos.ciudad || ''}${demograficos.departamento ? `, ${demograficos.departamento}` : ''}</div>` +
+                `<div class="detail-item"><span class="detail-label">Dirección:</span> ${demograficos.direccion || 'No disponible'}</div>` +
+                `<div class="detail-item"><span class="detail-label">Teléfono:</span> ${demograficos.telefonoContacto || 'No disponible'}</div>` +
+                `<div class="detail-item"><span class="detail-label">Contacto Emergencia:</span> ${demograficos.contactoEmergenciaNombre || 'N/A'} (${demograficos.contactoEmergenciaTelefono || 'N/A'})</div>`;
+
+            document.getElementById('signatureImage').src = firmaDigital;
+            const fechaFormateada = new Date(fecha).toLocaleString('es-CO', { dateStyle: 'full', timeStyle: 'short' });
+            document.getElementById('metadataContent').innerHTML = `<div class="detail-item"><span class="detail-label">Fecha de Firma:</span> ${fechaFormateada}</div><div class="detail-item overflow-x-auto"><span class="detail-label">User Agent:</span> ${consentimiento.userAgent || 'No disponible'}</div>`;
+
+            if (demograficos.nombreAcudiente) {
+                const acudienteCard = document.getElementById('acudienteCard');
+                acudienteCard.classList.remove('hidden');
+                document.getElementById('acudienteContent').innerHTML = 
+                    `<div class="detail-item"><span class="detail-label">Nombre:</span> ${demograficos.nombreAcudiente}</div>` +
+                    `<div class="detail-item"><span class="detail-label">Relación:</span> ${demograficos.tipoAcudiente || 'No disponible'}</div>` +
+                    `<div class="detail-item"><span class="detail-label">Documento:</span> ${demograficos.documentoAcudiente || 'No disponible'}</div>`;
+            }
+            
+            const esMenor = demograficos.edad && parseInt(demograficos.edad, 10) < 18;
+            const declarante = esMenor ? `Yo, ${demograficos.nombreAcudiente}, con documento ${demograficos.documentoAcudiente}, como ${demograficos.tipoAcudiente} de ${nombrePaciente}` : `Yo, ${nombrePaciente}, con documento ${demograficos.documentoIdentidad}`;
+            
+            document.getElementById('consentimientoIntro').textContent = `${declarante}, declaro que:`;
+            document.getElementById('confidencialidadTexto').textContent = 'Entiendo, acepto y soy consciente del trabajo profesional que realizará el psicólogo designado, y que este guardará una confidencialidad absoluta, la cual será inviolable, salvo que la integridad física del paciente se vea amenazada o por requerimientos de ley.';
+            document.getElementById('naturalezaTexto').textContent = 'Se me ha informado que el proceso puede incluir entrevistas, pruebas psicométricas y tareas, y que mi participación activa es fundamental. Entiendo y acepto que las sesiones podrán ser presenciales o virtuales según se acuerde previamente, garantizando en ambos casos el cumplimiento de la ley.';
+            document.getElementById('evaluacionTexto').textContent = 'Autorizo que sean practicadas las pruebas y herramientas diagnósticas que el psicólogo considere necesarias para establecer un diagnóstico asertivo.';
+            document.getElementById('costosTexto').textContent = 'Me comprometo a cubrir todos los gastos económicos de la atención, habiendo recibido la información de forma clara y oportuna.';
+            document.getElementById('datosTexto').textContent = `Autorizo el tratamiento de mis datos personales de acuerdo con la Ley 1581 de 2012 y la política de tratamiento de datos de "CInformado", la cual he podido consultar.`;
+
+            const modalidadContentDiv = document.getElementById('modalidadContent');
+            modalidadContentDiv.innerHTML = `
+                <div class="flex items-center space-x-4">
+                    <span class="font-semibold">${modalidad.charAt(0).toUpperCase() + modalidad.slice(1)}</span>
+                    <span class="text-green-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </span>
+                </div>`;
+
+            const declaracionDiv = document.getElementById('declaracionContent');
+            const textoDeclaracion = consentimiento.declaracionFinal || `Declaro y doy fe de que ${esMenor ? `yo, ${demograficos.nombreAcudiente},` : `yo, ${nombrePaciente},`} he leído y comprendido este documento durante una sesión ${modalidad} con el Psicólogo Jorge Arango Castaño, donde se me ha garantizado un espacio para hacer preguntas, las cuales han sido respondidas a mi entera satisfacción. Al marcar esta casilla, acepto todos los términos descritos anteriormente.`;
+            declaracionDiv.innerHTML = `<p class="font-normal text-sm">${textoDeclaracion}</p>`;
+        }
+    </script>
+</body>
+</html>
