@@ -13,12 +13,12 @@ export default async function handler(request, response) {
         const { password } = request.body;
 
         // 3. Obtenemos la contraseña CORRECTA desde las variables de entorno de Vercel.
-        // Esta variable 'LOGIN_PASS' NUNCA es visible para el cliente.
-        const correctPassword = process.env.LOGIN_PASS;
+        // Esta variable 'LOGIN_PASSWORD' NUNCA es visible para el cliente.
+        const correctPassword = process.env.LOGIN_PASSWORD;
 
         if (!correctPassword) {
             // Error de configuración del servidor, la variable no está definida.
-            console.error("CRITICAL: La variable de entorno LOGIN_PASS no está configurada en Vercel.");
+            console.error("CRITICAL: La variable de entorno LOGIN_PASSWORD no está configurada en Vercel.");
             return response.status(500).json({ success: false, message: 'Error de configuración del servidor.' });
         }
 
