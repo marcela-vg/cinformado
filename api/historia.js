@@ -280,8 +280,9 @@ export default async function handler(request, response) {
                     const historiaData = {
                         fechaSesionCero: data.fechaSesionCero || '', valorSesionCero: Number(data.valorSesionCero) || 0, pagadoSesionCero: data.pagadoSesionCero === true,
                         contextoVital: { ocupacion: data.ocupacion || '', convivencia: data.convivencia || '', hobbies: data.hobbies || '', noHobbies: data.noHobbies || '', antecedentesMedicos: data.antecedentesMedicos || '' },
-                        halcon: { motivoConsulta: data.motivoConsulta || '', habilidades: data.habilidades || '', aspiracion: data.aspiracion || '', creencias: data.creencias || '', construccion: data.construccion || '', orientacion: data.orientacion || '', nutricion: data.nutricion || '' },
-                        cierreSesionCero: data.cierreSesionCero || '', acuerdoStrikes: data.acuerdoStrikes === true, ultimaActualizacion: new Date().toISOString()
+                        halcon: { motivoConsulta: data.motivoConsulta || '', sintomasFisicos: data.sintomasFisicos || '', sintomasMentales: data.sintomasMentales || '', sintomasEmocionales: data.sintomasEmocionales || '' },
+                        metodoAtencionCero: data.metodoAtencionCero || '',
+                        cierreSesionCero: data.cierreSesionCero || '', ultimaActualizacion: new Date().toISOString()
                     };
                     await db.collection('historias_clinicas').doc(data.pacienteId).set(historiaData, { merge: true });
                     return response.status(200).json({ message: 'Sesión Cero guardada.' });
@@ -293,7 +294,7 @@ export default async function handler(request, response) {
 
                 case 'saveEvolucion':
                     if (!data.pacienteId) return response.status(400).json({ message: 'Falta ID.' });
-                    await db.collection('historias_clinicas').doc(data.pacienteId).set({ evoluciones: data.evoluciones || [], strikes: data.strikes || 0, ultimaActualizacionEvo: new Date().toISOString() }, { merge: true });
+                    await db.collection('historias_clinicas').doc(data.pacienteId).set({ evoluciones: data.evoluciones || [], ultimaActualizacionEvo: new Date().toISOString() }, { merge: true });
                     return response.status(200).json({ message: 'Bitácora guardada.' });
 
                 case 'savePerfil':
