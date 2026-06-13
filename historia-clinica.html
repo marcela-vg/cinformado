@@ -19,8 +19,6 @@
         
         .min-h-input { min-height: 48px !important; }
         
-        .strike-indicator { transition: all 0.3s; }
-        .strike-active { background-color: #ef4444; border-color: #ef4444; }
 
         .timeline-card { cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
         .timeline-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-color: #003366; }
@@ -178,9 +176,9 @@
                     
                     <div class="mt-4 border-t border-blue-100 pt-4 print:border-gray-300 print:mt-3 print:pt-3">
                         <h3 class="text-md font-bold text-[#003366] flex items-center mb-2 print:text-black">
-                            <span class="mr-2 print:hidden">🎯</span> Propósito de Vida Definido
+                            <span class="mr-2 print:hidden">🎯</span> Triagrama de Nacimiento
                         </h3>
-                        <textarea id="propositoVida" rows="2" class="textarea-styled text-sm text-gray-800 bg-white border-blue-200 focus:border-[#003366]" placeholder="Cuando el paciente logre definir su propósito de vida, escríbelo aquí para tenerlo siempre presente a primera vista..."></textarea>
+                        <textarea id="propositoVida" rows="2" class="textarea-styled text-sm text-gray-800 bg-white border-blue-200 focus:border-[#003366]" placeholder="Registra aquí el triagrama de nacimiento del paciente para tenerlo siempre presente a primera vista..."></textarea>
                     </div>
 
                     <div class="text-right mt-4 no-print">
@@ -221,7 +219,7 @@
 
                         <div class="space-y-6">
                             <div class="flex flex-col md:flex-row md:items-center justify-between border-b pb-2 mb-4 gap-4">
-                                <h4 class="text-lg font-bold text-[#003366]">Diagnóstico Existencial (Método HALCÓN)</h4>
+                                <h4 class="text-lg font-bold text-[#003366]">Diagnóstico General</h4>
                                 <div class="mt-2 md:mt-0 flex flex-wrap gap-4 items-center">
                                     <div class="flex items-center space-x-3 print:hidden">
                                         <div class="flex items-center">
@@ -241,12 +239,9 @@
                             </div>
                             
                             <div><label class="block mb-2 font-bold text-gray-800">1. Motivo de Consulta</label><textarea id="motivoConsulta" rows="4" class="textarea-styled" placeholder="Describe el motivo de consulta del paciente..."></textarea></div>
-                            <div><label class="block mb-2 font-bold text-[#003366]">2. [H] - Habilidades y Esencia</label><textarea id="habilidades" rows="3" class="textarea-styled" placeholder="¿Qué herramientas internas posee hoy?"></textarea></div>
-                            <div><label class="block mb-2 font-bold text-[#003366]">3. [A] - Aspiración / Meta del Proyecto</label><textarea id="aspiracion" rows="3" class="textarea-styled" placeholder="Visión a alcanzar al final de las sesiones..."></textarea></div>
-                            <div><label class="block mb-2 font-bold text-[#003366]">4. [L] - Lógica (Filtros y Creencias)</label><textarea id="creencias" rows="3" class="textarea-styled" placeholder="¿Qué creencias están bloqueando su proyecto de vida?"></textarea></div>
-                            <div><label class="block mb-2 font-bold text-[#003366]">5. [C] - Construcción y Concreción</label><textarea id="construccion" rows="3" class="textarea-styled" placeholder="Proyectos específicos, pasos a seguir y fechas tentativas..."></textarea></div>
-                            <div><label class="block mb-2 font-bold text-[#003366]">6. [O] - Orientación y Adaptación</label><textarea id="orientacion" rows="3" class="textarea-styled" placeholder="Estrategias de afrontamiento, resolución de conflictos..."></textarea></div>
-                            <div><label class="block mb-2 font-bold text-[#003366]">7. [N] - Nutrición y Trascendencia</label><textarea id="nutricion" rows="3" class="textarea-styled" placeholder="Prácticas de autocuidado, contribución al entorno y legado..."></textarea></div>
+                            <div><label class="block mb-2 font-bold text-[#003366]">2. Síntomas Físicos</label><textarea id="sintomasFisicos" rows="3" class="textarea-styled" placeholder="Manifestaciones físicas reportadas por el paciente..."></textarea></div>
+                            <div><label class="block mb-2 font-bold text-[#003366]">3. Síntomas Mentales</label><textarea id="sintomasMentales" rows="3" class="textarea-styled" placeholder="Manifestaciones mentales/cognitivas reportadas por el paciente..."></textarea></div>
+                            <div><label class="block mb-2 font-bold text-[#003366]">4. Síntomas Emocionales</label><textarea id="sintomasEmocionales" rows="3" class="textarea-styled" placeholder="Manifestaciones emocionales reportadas por el paciente..."></textarea></div>
                         </div>
 
                         <div class="pt-6 border-t border-gray-200 mt-6 print:mt-4 print:pt-4">
@@ -255,14 +250,17 @@
                                     <svg class="w-5 h-5 mr-2 print:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
                                     Cierre de Sesión Inicial
                                 </h4>
+                                <label class="block font-bold text-gray-800 mb-2">Método de Atención</label>
+                                <select id="metodoAtencionCero" class="input-styled bg-white mb-4">
+                                    <option value="">Selecciona un método...</option>
+                                    <option value="Medicina Tradicional China">Medicina Tradicional China</option>
+                                    <option value="Humanismo Sanador">Humanismo Sanador</option>
+                                    <option value="Método Yuen">Método Yuen</option>
+                                </select>
                                 <label class="block font-bold text-gray-800 mb-2">¿Cómo te sientes y qué te llevas?</label>
                                 <textarea id="cierreSesionCero" rows="3" class="textarea-styled bg-white" placeholder="Reflexión final del paciente al cerrar la sesión..."></textarea>
                             </div>
 
-                            <div class="flex items-start no-print">
-                                <div class="flex items-center h-5"><input id="compromisoStrikes" type="checkbox" class="w-5 h-5 text-[#003366] border-gray-300 rounded focus:ring-[#003366]"></div>
-                                <div class="ml-3 text-sm"><label for="compromisoStrikes" class="font-bold text-gray-800">Acuerdo de la Regla de los "3 Strikes"</label><p class="text-gray-500">El paciente comprende y acepta que el éxito del proyecto depende de su acción, y que al 3er incumplimiento injustificado, el proceso será finalizado.</p></div>
-                            </div>
                         </div>
 
                         <div id="form-error" class="hidden text-red-600 font-medium text-sm text-center no-print">Por favor diligencia al menos el Motivo de Consulta y la fecha.</div>
@@ -294,18 +292,6 @@
                         
                         <!-- 1. BLOQUE DE REGISTRO -->
                         <div class="space-y-6" id="evolucionFormBox">
-                            <div class="bg-red-50 border border-red-100 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between">
-                                <div><h3 class="text-lg font-bold text-red-800">Tracker de Voluntad</h3><p class="text-xs text-red-600">Regla de los 3 Strikes</p></div>
-                                <div class="flex items-center space-x-4 mt-4 sm:mt-0">
-                                    <div class="flex space-x-2">
-                                        <div id="strike1" class="strike-indicator w-8 h-8 rounded-full border-2 border-red-300 bg-white flex items-center justify-center font-bold text-red-300 text-sm">1</div>
-                                        <div id="strike2" class="strike-indicator w-8 h-8 rounded-full border-2 border-red-300 bg-white flex items-center justify-center font-bold text-red-300 text-sm">2</div>
-                                        <div id="strike3" class="strike-indicator w-8 h-8 rounded-full border-2 border-red-300 bg-white flex items-center justify-center font-bold text-red-300 text-sm">3</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <p id="strikeMessage" class="text-sm font-semibold text-gray-700 text-center sm:text-right mt-[-1rem]">Compromiso estable.</p>
-
                             <div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
                                 <h3 class="text-lg font-bold text-[#003366] mb-4 border-b pb-2">Registrar Nueva Sesión</h3>
                                 <form id="evolucionForm" class="space-y-5">
@@ -325,16 +311,15 @@
                                     </div>
                                     
                                     <div><label class="block text-sm font-semibold mb-1">Nota de Evolución</label><textarea id="evoNota" rows="6" class="textarea-styled text-sm" placeholder="Resumen de la sesión, técnicas aplicadas, avances..." required></textarea></div>
-                                    
-                                    <div class="p-4 bg-white border border-gray-200 rounded-lg">
-                                        <div class="flex items-center">
-                                            <input id="hasPrueba" type="checkbox" class="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500 cursor-pointer" onchange="togglePruebaBox()">
-                                            <label for="hasPrueba" class="ml-2 text-sm font-bold text-purple-800 cursor-pointer">Se aplicó Prueba Psicométrica</label>
-                                        </div>
-                                        <div id="pruebaBox" class="hidden mt-3 pt-3 border-t border-gray-100">
-                                            <label class="block text-xs font-semibold mb-1 text-purple-700">Nombre de la prueba y Resultados</label>
-                                            <textarea id="pruebaResultados" rows="3" class="textarea-styled text-sm border-purple-200 focus:border-purple-500" placeholder="Resultados..."></textarea>
-                                        </div>
+
+                                    <div class="mt-4 p-4 bg-white border border-gray-200 rounded-lg">
+                                        <label class="block text-sm font-bold mb-2 text-[#003366]">Método de Atención</label>
+                                        <select id="evoMetodoAtencion" class="input-styled text-sm bg-white">
+                                            <option value="">Selecciona un método...</option>
+                                            <option value="Medicina Tradicional China">Medicina Tradicional China</option>
+                                            <option value="Humanismo Sanador">Humanismo Sanador</option>
+                                            <option value="Método Yuen">Método Yuen</option>
+                                        </select>
                                     </div>
 
                                     <div class="mt-4 p-4 bg-blue-50 border border-blue-100 rounded-lg">
@@ -345,15 +330,6 @@
                                         <textarea id="evoCierre" rows="3" class="textarea-styled text-sm bg-white" placeholder="Reflexión final del paciente al terminar la sesión..."></textarea>
                                     </div>
                                     
-                                    <div class="mt-4 p-4 bg-white rounded-lg border border-gray-200">
-                                        <p class="text-xs font-bold text-gray-500 uppercase mb-3">Gestión de Compromiso (Strikes)</p>
-                                        <div class="flex flex-col sm:flex-row gap-3">
-                                            <label class="flex items-center space-x-2 cursor-pointer bg-gray-50 px-3 py-2 rounded border border-gray-200 flex-1 hover:bg-gray-100 transition"><input type="radio" name="strikeAction" value="none" class="w-4 h-4 text-gray-600 focus:ring-gray-500" checked><span class="text-sm font-semibold text-gray-700">Sin cambios</span></label>
-                                            <label class="flex items-center space-x-2 cursor-pointer bg-red-50 px-3 py-2 rounded border border-red-100 flex-1 hover:bg-red-100 transition"><input type="radio" name="strikeAction" value="add" class="w-4 h-4 text-red-600 focus:ring-red-500"><span class="text-sm font-semibold text-red-800">Aplicar Strike</span></label>
-                                            <label class="flex items-center space-x-2 cursor-pointer bg-green-50 px-3 py-2 rounded border border-green-100 flex-1 hover:bg-green-100 transition"><input type="radio" name="strikeAction" value="remove" class="w-4 h-4 text-green-600 focus:ring-green-500"><span class="text-sm font-semibold text-green-800">Remover Strike</span></label>
-                                        </div>
-                                    </div>
-
                                     <button type="submit" id="btnSaveEvo" class="w-full bg-[#003366] text-white py-3 rounded-lg font-bold hover:bg-[#002244] transition-colors mt-4 text-lg shadow-md">Guardar en Bitácora</button>
                                 </form>
                             </div>
@@ -542,9 +518,9 @@
                     <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">Nota de Evolución / Encuadre</h4>
                     <div id="modalNota" class="text-gray-800 whitespace-pre-wrap bg-gray-50 p-4 rounded-lg border border-gray-100 text-[15px] leading-relaxed"></div>
                 </div>
-                <div id="modalPruebasContainer" class="hidden">
-                    <h4 class="text-sm font-bold text-purple-600 uppercase tracking-wider mb-2">Evaluación / Pruebas</h4>
-                    <div id="modalPruebas" class="text-purple-900 whitespace-pre-wrap bg-purple-50 p-4 rounded-lg border border-purple-100 text-[15px] leading-relaxed"></div>
+                <div id="modalMetodoContainer" class="hidden">
+                    <h4 class="text-sm font-bold text-[#003366] uppercase tracking-wider mb-2">Método de Atención</h4>
+                    <div id="modalMetodo" class="text-gray-800 bg-blue-50 p-4 rounded-lg border border-blue-100 font-medium"></div>
                 </div>
                 <div id="modalTareaContainer" class="hidden">
                     <h4 class="text-sm font-bold text-blue-600 uppercase tracking-wider mb-2">Tarea Asignada</h4>
@@ -622,7 +598,6 @@
     <input type="hidden" id="qrLinkHidden">
 
     <script>
-        let currentStrikes = 0;
         let evoluciones = [];
         let planTrabajo = [];
         let globalEmailPaciente = '';
@@ -750,32 +725,24 @@
                     noHobbies: document.getElementById('noHobbies').value,
                     antecedentesMedicos: document.getElementById('antecedentesMedicos').value,
                     motivoConsulta: document.getElementById('motivoConsulta').value,
-                    habilidades: document.getElementById('habilidades').value,
-                    aspiracion: document.getElementById('aspiracion').value,
-                    creencias: document.getElementById('creencias').value,
-                    construccion: document.getElementById('construccion').value,
-                    orientacion: document.getElementById('orientacion').value,
-                    nutricion: document.getElementById('nutricion').value,
-                    cierreSesionCero: document.getElementById('cierreSesionCero').value,
-                    compromisoStrikes: document.getElementById('compromisoStrikes').checked
+                    sintomasFisicos: document.getElementById('sintomasFisicos').value,
+                    sintomasMentales: document.getElementById('sintomasMentales').value,
+                    sintomasEmocionales: document.getElementById('sintomasEmocionales').value,
+                    metodoAtencionCero: document.getElementById('metodoAtencionCero').value,
+                    cierreSesionCero: document.getElementById('cierreSesionCero').value
                 };
                 localStorage.setItem(draftCeroKey, JSON.stringify(data));
             });
 
             const saveEvoDraft = () => {
-                let strikeActionVal = 'none';
-                const strikeChecked = document.querySelector('input[name="strikeAction"]:checked');
-                if (strikeChecked) strikeActionVal = strikeChecked.value;
                 const data = {
                     fecha: document.getElementById('evoFecha').value,
                     valor: document.getElementById('evoValor').value,
                     pagado: document.getElementById('evoPagado').checked,
                     tarea: document.getElementById('evoTarea').value,
                     nota: document.getElementById('evoNota').value,
-                    hasPrueba: document.getElementById('hasPrueba').checked,
-                    pruebaResultados: document.getElementById('pruebaResultados').value,
-                    cierre: document.getElementById('evoCierre').value,
-                    strikeAction: strikeActionVal
+                    metodoAtencion: document.getElementById('evoMetodoAtencion').value,
+                    cierre: document.getElementById('evoCierre').value
                 };
                 localStorage.setItem(draftEvoKey, JSON.stringify(data));
             };
@@ -817,14 +784,11 @@
                     document.getElementById('noHobbies').value = data.noHobbies || '';
                     document.getElementById('antecedentesMedicos').value = data.antecedentesMedicos || '';
                     document.getElementById('motivoConsulta').value = data.motivoConsulta || '';
-                    document.getElementById('habilidades').value = data.habilidades || '';
-                    document.getElementById('aspiracion').value = data.aspiracion || '';
-                    document.getElementById('creencias').value = data.creencias || '';
-                    document.getElementById('construccion').value = data.construccion || '';
-                    document.getElementById('orientacion').value = data.orientacion || '';
-                    document.getElementById('nutricion').value = data.nutricion || '';
+                    document.getElementById('sintomasFisicos').value = data.sintomasFisicos || '';
+                    document.getElementById('sintomasMentales').value = data.sintomasMentales || '';
+                    document.getElementById('sintomasEmocionales').value = data.sintomasEmocionales || '';
+                    document.getElementById('metodoAtencionCero').value = data.metodoAtencionCero || '';
                     document.getElementById('cierreSesionCero').value = data.cierreSesionCero || '';
-                    document.getElementById('compromisoStrikes').checked = data.compromisoStrikes || false;
                     restoredItems.push('Sesión Cero');
                 } catch(e) {}
             }
@@ -843,10 +807,8 @@
                     if(data.pagado !== undefined) document.getElementById('evoPagado').checked = data.pagado;
                     if(data.tarea) document.getElementById('evoTarea').value = data.tarea;
                     if(data.nota) document.getElementById('evoNota').value = data.nota;
-                    if(data.hasPrueba !== undefined) { document.getElementById('hasPrueba').checked = data.hasPrueba; togglePruebaBox(); }
-                    if(data.pruebaResultados) document.getElementById('pruebaResultados').value = data.pruebaResultados;
+                    if(data.metodoAtencion) document.getElementById('evoMetodoAtencion').value = data.metodoAtencion;
                     if(data.cierre) document.getElementById('evoCierre').value = data.cierre;
-                    if(data.strikeAction) { const r = document.querySelector(`input[name="strikeAction"][value="${data.strikeAction}"]`); if(r) r.checked = true; }
                     restoredItems.push('Bitácora/Evolución');
                 } catch(e) {}
             }
@@ -871,11 +833,6 @@
             }
         }
 
-        function togglePruebaBox() {
-            const box = document.getElementById('pruebaBox');
-            if (document.getElementById('hasPrueba').checked) { box.classList.remove('hidden'); document.getElementById('pruebaResultados').required = true; } 
-            else { box.classList.add('hidden'); document.getElementById('pruebaResultados').required = false; document.getElementById('pruebaResultados').value = ''; }
-        }
 
         function toggleDireccion() {
             const box = document.getElementById('boxDireccion');
@@ -985,18 +942,15 @@
                             document.getElementById('antecedentesMedicos').value = histData.contextoVital?.antecedentesMedicos || '';
                             
                             document.getElementById('motivoConsulta').value = histData.halcon?.motivoConsulta || '';
-                            document.getElementById('habilidades').value = histData.halcon?.habilidades || '';
-                            document.getElementById('aspiracion').value = histData.halcon?.aspiracion || '';
-                            document.getElementById('creencias').value = histData.halcon?.creencias || '';
-                            document.getElementById('construccion').value = histData.halcon?.construccion || '';
-                            document.getElementById('orientacion').value = histData.halcon?.orientacion || '';
-                            document.getElementById('nutricion').value = histData.halcon?.nutricion || '';
+                            document.getElementById('sintomasFisicos').value = histData.halcon?.sintomasFisicos || '';
+                            document.getElementById('sintomasMentales').value = histData.halcon?.sintomasMentales || '';
+                            document.getElementById('sintomasEmocionales').value = histData.halcon?.sintomasEmocionales || '';
                             
+                            document.getElementById('metodoAtencionCero').value = histData.metodoAtencionCero || '';
                             document.getElementById('cierreSesionCero').value = histData.cierreSesionCero || '';
                             document.getElementById('perfilEjecutivo').value = histData.perfilEjecutivo || '';
                             document.getElementById('propositoVida').value = histData.propositoVida || '';
                             
-                            document.getElementById('compromisoStrikes').checked = histData.acuerdoStrikes || false;
                             document.getElementById('btnSave').textContent = 'Actualizar Sesión Cero';
 
                             if (histData.enlaceMeet) document.getElementById('citaMeet').value = histData.enlaceMeet;
@@ -1006,7 +960,6 @@
 
                             if (histData.planTrabajo && histData.planTrabajo.length > 0) planTrabajo = histData.planTrabajo;
                             if (histData.evoluciones && histData.evoluciones.length > 0) evoluciones = histData.evoluciones;
-                            if (histData.strikes !== undefined) { currentStrikes = histData.strikes; updateStrikeUI(); }
                             firmaSesionCeroGlobal = histData.firmaSesionCero || null;
                             fechaFirmaSesionCeroGlobal = histData.fechaFirmaSesionCero || null;
                             setTimeout(resizeAllTextareas, 100);
@@ -1070,26 +1023,13 @@
             if (planTrabajo && planTrabajo.length > numSesiones) { proxTema = planTrabajo[numSesiones].tema || planTrabajo[numSesiones].objetivo || "Tema por definir en el plan"; } 
             else if (planTrabajo && planTrabajo.length > 0) { proxTema = planTrabajo[planTrabajo.length-1].tema || "Cierre de proceso"; }
 
-            let pruebasAplicadas = [];
-            evoluciones.forEach(evo => {
-                if (evo.hasPrueba && evo.pruebaResultados) {
-                    let nombrePrueba = evo.pruebaResultados.split('\n')[0].trim();
-                    if (nombrePrueba.length > 60) nombrePrueba = nombrePrueba.substring(0, 57) + '...';
-                    pruebasAplicadas.push(nombrePrueba);
-                }
-            });
-
             let texto = `Paciente de ${edadValue === 'N/A' ? 'edad múltiple/no especificada' : edadValue + ' años'}. Motivo de consulta principal: "${motivoCorto}".\n\n`;
 
-            const hab = document.getElementById('habilidades').value.trim(); const asp = document.getElementById('aspiracion').value.trim(); const cre = document.getElementById('creencias').value.trim(); const con = document.getElementById('construccion').value.trim(); const ori = document.getElementById('orientacion').value.trim(); const nut = document.getElementById('nutricion').value.trim();
-            if (hab || asp || cre || con || ori || nut) {
-                texto += `--- DIAGNÓSTICO HALCÓN ---\n`;
-                if (hab) texto += `• Sus habilidades y esencia: ${hab}\n`; if (asp) texto += `• Sus aspiraciones/metas: ${asp}\n`; if (cre) texto += `• Su lógica y creencias: ${cre}\n`; if (con) texto += `• Construcción/Concreción: ${con}\n`; if (ori) texto += `• Orientación/Adaptación: ${ori}\n`; if (nut) texto += `• Nutrición y trascendencia: ${nut}\n`;
+            const sFis = document.getElementById('sintomasFisicos').value.trim(); const sMen = document.getElementById('sintomasMentales').value.trim(); const sEmo = document.getElementById('sintomasEmocionales').value.trim();
+            if (sFis || sMen || sEmo) {
+                texto += `--- DIAGNÓSTICO GENERAL ---\n`;
+                if (sFis) texto += `• Síntomas físicos: ${sFis}\n`; if (sMen) texto += `• Síntomas mentales: ${sMen}\n`; if (sEmo) texto += `• Síntomas emocionales: ${sEmo}\n`;
                 texto += `\n`;
-            }
-
-            if (pruebasAplicadas.length > 0) {
-                texto += `--- EVALUACIÓN PSICOMÉTRICA ---\n`; texto += `A la fecha se han aplicado ${pruebasAplicadas.length} prueba(s) psicométrica(s):\n`; pruebasAplicadas.forEach(p => texto += `• ${p}\n`); texto += `\n`;
             }
 
             texto += `A la fecha ha completado ${numSesiones} sesión(es) de acompañamiento. Actualmente evolucionando hacia su próximo objetivo: ${proxTema}.`;
@@ -1197,9 +1137,9 @@
                 fechaSesionCero: fechaSC,
                 valorSesionCero: document.getElementById('valorSesionCero').value || 0,
                 pagadoSesionCero: document.getElementById('pagadoSesionCero').checked,
-                ocupacion: document.getElementById('ocupacion').value, convivencia: document.getElementById('convivencia').value, hobbies: document.getElementById('hobbies').value, noHobbies: document.getElementById('noHobbies').value, antecedentesMedicos: document.getElementById('antecedentesMedicos').value, motivoConsulta: motivo, habilidades: document.getElementById('habilidades').value, aspiracion: document.getElementById('aspiracion').value, creencias: document.getElementById('creencias').value, construccion: document.getElementById('construccion').value, orientacion: document.getElementById('orientacion').value, nutricion: document.getElementById('nutricion').value, 
-                cierreSesionCero: document.getElementById('cierreSesionCero').value,
-                acuerdoStrikes: document.getElementById('compromisoStrikes').checked
+                ocupacion: document.getElementById('ocupacion').value, convivencia: document.getElementById('convivencia').value, hobbies: document.getElementById('hobbies').value, noHobbies: document.getElementById('noHobbies').value, antecedentesMedicos: document.getElementById('antecedentesMedicos').value, motivoConsulta: motivo, sintomasFisicos: document.getElementById('sintomasFisicos').value, sintomasMentales: document.getElementById('sintomasMentales').value, sintomasEmocionales: document.getElementById('sintomasEmocionales').value, 
+                metodoAtencionCero: document.getElementById('metodoAtencionCero').value,
+                cierreSesionCero: document.getElementById('cierreSesionCero').value
             };
             try {
                 const response = await fetch(`/api/historia?action=saveHistoria&id=${id}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(historiaData) });
@@ -1207,15 +1147,6 @@
             } catch(e) { alert("Hubo un error al conectar."); btn.disabled = false; btn.textContent = 'Intentar de nuevo'; }
         }
 
-        function updateStrikeUI() {
-            for(let i=1; i<=3; i++) { let el = document.getElementById(`strike${i}`); el.classList.remove('strike-active', 'text-white'); el.classList.add('bg-white', 'text-red-300'); }
-            for(let i=1; i<=currentStrikes; i++) { if(i > 3) break; let el = document.getElementById(`strike${i}`); el.classList.remove('bg-white', 'text-red-300'); el.classList.add('strike-active', 'text-white'); }
-            const msgLabel = document.getElementById('strikeMessage');
-            if (currentStrikes === 0) msgLabel.textContent = "Compromiso estable.";
-            else if (currentStrikes === 1) msgLabel.textContent = "Atención: 1 falta registrada.";
-            else if (currentStrikes === 2) msgLabel.textContent = "Alerta: 2 faltas. En riesgo.";
-            else if (currentStrikes >= 3) msgLabel.textContent = "LÍMITE ALCANZADO. Evaluar cierre ético.";
-        }
 
         function renderTimeline() {
             const container = document.getElementById('timelineContainer');
@@ -1233,8 +1164,6 @@
                 const fechaAmigable = formatearFechaAmigable(evo.fecha);
                 
                 let iconBgClass = 'bg-[#003366]'; let iconPath = 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z'; let badgeHTML = '';
-                if (evo.strikeAnadido) { iconBgClass = 'bg-red-500'; iconPath = 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'; badgeHTML += '<span class="text-xs font-bold bg-red-100 text-red-700 px-2 py-0.5 rounded ml-2">Strike Aplicado</span>'; } 
-                else if (evo.strikeRemovido) { iconBgClass = 'bg-green-500'; iconPath = 'M5 13l4 4L19 7'; badgeHTML += '<span class="text-xs font-bold bg-green-100 text-green-700 px-2 py-0.5 rounded ml-2">Strike Removido</span>'; }
                 
                 if (evo.valor && Number(evo.valor) > 0) {
                     const pagoColor = evo.pagado ? 'bg-green-100 text-green-800 border-green-200' : 'bg-orange-100 text-orange-800 border-orange-200';
@@ -1385,11 +1314,11 @@
                     fecha: document.getElementById('fechaSesionCero').value,
                     valor: document.getElementById('valorSesionCero').value,
                     pagado: document.getElementById('pagadoSesionCero').checked,
-                    nota: "MOTIVO DE CONSULTA:\n" + document.getElementById('motivoConsulta').value + "\n\nDIAGNÓSTICO HALCÓN:\n• Habilidades: " + document.getElementById('habilidades').value + "\n• Aspiración: " + document.getElementById('aspiracion').value + "\n• Lógica/Creencias: " + document.getElementById('creencias').value + "\n• Construcción: " + document.getElementById('construccion').value + "\n• Orientación: " + document.getElementById('orientacion').value + "\n• Nutrición: " + document.getElementById('nutricion').value,
+                    nota: "MOTIVO DE CONSULTA:\n" + document.getElementById('motivoConsulta').value + "\n\nDIAGNÓSTICO GENERAL:\n• Síntomas Físicos: " + document.getElementById('sintomasFisicos').value + "\n• Síntomas Mentales: " + document.getElementById('sintomasMentales').value + "\n• Síntomas Emocionales: " + document.getElementById('sintomasEmocionales').value + "\n\nMÉTODO DE ATENCIÓN: " + (document.getElementById('metodoAtencionCero').value || 'No especificado'),
                     cierre: document.getElementById('cierreSesionCero').value,
+                    metodoAtencion: document.getElementById('metodoAtencionCero').value,
                     firmaPaciente: firmaSesionCeroGlobal,
                     fechaFirmaPaciente: fechaFirmaSesionCeroGlobal,
-                    hasPrueba: false,
                     anexos: []
                 };
             } else {
@@ -1406,8 +1335,8 @@
             document.getElementById('modalFecha').textContent = titleText;
             document.getElementById('modalNota').textContent = evo.nota;
 
-            if(evo.hasPrueba && evo.pruebaResultados) { document.getElementById('modalPruebasContainer').classList.remove('hidden'); document.getElementById('modalPruebas').textContent = evo.pruebaResultados; } 
-            else { document.getElementById('modalPruebasContainer').classList.add('hidden'); }
+            if(evo.metodoAtencion) { document.getElementById('modalMetodoContainer').classList.remove('hidden'); document.getElementById('modalMetodo').textContent = evo.metodoAtencion; } 
+            else { document.getElementById('modalMetodoContainer').classList.add('hidden'); }
 
             if(evo.tarea) { document.getElementById('modalTareaContainer').classList.remove('hidden'); document.getElementById('modalTarea').textContent = evo.tarea; } 
             else { document.getElementById('modalTareaContainer').classList.add('hidden'); }
@@ -1547,7 +1476,7 @@
 
             try {
                 const patientId = new URLSearchParams(window.location.search).get('id');
-                const response = await fetch(`/api/historia?action=saveEvolucion&id=${patientId}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pacienteId: patientId, evoluciones: evoluciones, strikes: currentStrikes }) });
+                const response = await fetch(`/api/historia?action=saveEvolucion&id=${patientId}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pacienteId: patientId, evoluciones: evoluciones }) });
                 if(response.ok){ localStorage.removeItem(`draft_anexo_${evoId}`); renderTimeline(); openModal(evoId); }
             } catch(e) { evoluciones[evoIndex].anexos.pop(); alert("Error al guardar el anexo."); }
             finally { btn.textContent = originalText; btn.disabled = false; }
@@ -1569,7 +1498,7 @@
 
             try {
                 const patientId = new URLSearchParams(window.location.search).get('id');
-                const response = await fetch(`/api/historia?action=saveEvolucion&id=${patientId}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pacienteId: patientId, evoluciones: evoluciones, strikes: currentStrikes }) });
+                const response = await fetch(`/api/historia?action=saveEvolucion&id=${patientId}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pacienteId: patientId, evoluciones: evoluciones }) });
                 if(response.ok){ renderTimeline(); document.getElementById('pagoSuccessMsg').classList.remove('hidden'); setTimeout(() => document.getElementById('pagoSuccessMsg').classList.add('hidden'), 3000); }
             } catch(e) { alert("Error al actualizar el pago."); } finally { btn.textContent = originalText; btn.disabled = false; }
         }
@@ -1580,35 +1509,26 @@
             const pagado = document.getElementById('evoPagado').checked;
             const nota = document.getElementById('evoNota').value;
             const tarea = document.getElementById('evoTarea').value;
-            const hasPrueba = document.getElementById('hasPrueba').checked;
-            const pruebaResultados = document.getElementById('pruebaResultados').value;
             const cierre = document.getElementById('evoCierre').value;
-            const strikeAction = document.querySelector('input[name="strikeAction"]:checked').value;
-            let strikeAnadido = false; let strikeRemovido = false;
+            const metodoAtencion = document.getElementById('evoMetodoAtencion').value;
 
-            if (strikeAction === 'add') { currentStrikes++; strikeAnadido = true; } 
-            else if (strikeAction === 'remove') { if (currentStrikes > 0) { currentStrikes--; strikeRemovido = true; } else { alert("No hay Strikes para remover."); return; } }
-            updateStrikeUI();
-
-            const nuevaEvo = { id: Date.now().toString(), fecha, valor, pagado, nota, tarea, cierre, strikeAnadido, strikeRemovido, hasPrueba, pruebaResultados, anexos: [], firmaPaciente: null, fechaFirmaPaciente: null };
+            const nuevaEvo = { id: Date.now().toString(), fecha, valor, pagado, nota, tarea, cierre, metodoAtencion, anexos: [], firmaPaciente: null, fechaFirmaPaciente: null };
             evoluciones.push(nuevaEvo); renderTimeline();
 
             const btn = document.getElementById('btnSaveEvo');
             const originalText = btn.textContent; btn.disabled = true; btn.textContent = 'Guardando...';
 
             try {
-                const response = await fetch(`/api/historia?action=saveEvolucion&id=${id}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pacienteId: id, evoluciones: evoluciones, strikes: currentStrikes }) });
+                const response = await fetch(`/api/historia?action=saveEvolucion&id=${id}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pacienteId: id, evoluciones: evoluciones }) });
                 if (response.ok) {
                     localStorage.removeItem(draftEvoKey);
                     document.getElementById('evolucionForm').reset(); 
                     document.getElementById('evoFecha').valueAsDate = new Date(); 
-                    document.getElementById('hasPrueba').checked = false; 
                     document.getElementById('evoPagado').checked = false;
-                    document.querySelector('input[name="strikeAction"][value="none"]').checked = true; togglePruebaBox();
                     btn.textContent = '¡Guardada!'; setTimeout(() => { btn.textContent = originalText; btn.disabled = false; }, 2000);
                     setTimeout(resizeAllTextareas, 50); 
                 }
-            } catch(e) { alert("Hubo un error al guardar."); evoluciones.pop(); if (strikeAnadido) currentStrikes--; if (strikeRemovido) currentStrikes++; updateStrikeUI(); renderTimeline(); btn.textContent = originalText; btn.disabled = false; }
+            } catch(e) { alert("Hubo un error al guardar."); evoluciones.pop(); renderTimeline(); btn.textContent = originalText; btn.disabled = false; }
         }
     </script>
 </body>
