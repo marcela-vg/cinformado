@@ -7,7 +7,7 @@ import { sanitizePayload } from '../lib/sanitize.js';
 // Helper para formatear fechas al estándar iCalendar (UTC)
 function formatICSDate(dateStr, timeStr) {
     const localDate = new Date(`${dateStr}T${timeStr}:00-05:00`);
-    const endLocalDate = new Date(localDate.getTime() + 90 * 60 * 1000); 
+    const endLocalDate = new Date(localDate.getTime() + 60 * 60 * 1000); 
 
     const toUTC = (d) => {
         return d.getUTCFullYear() +
@@ -89,7 +89,7 @@ export default async function handler(request, response) {
 
                 if (data.proximaCita && data.proximaCita.fecha && data.proximaCita.hora) {
                     const startDate = new Date(`${data.proximaCita.fecha}T${data.proximaCita.hora}:00-05:00`);
-                    const endDate = new Date(startDate.getTime() + 90 * 60 * 1000); 
+                    const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); 
 
                     eventosCalendario.push({
                         id: `futura-${pacienteId}`,
