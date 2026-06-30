@@ -313,6 +313,17 @@
                                     <div><label class="block text-sm font-semibold mb-1">Nota de Evolución</label><textarea id="evoNota" rows="6" class="textarea-styled text-sm" placeholder="Resumen de la sesión, técnicas aplicadas, avances..." required></textarea></div>
 
                                     <div class="mt-4 p-4 bg-white border border-gray-200 rounded-lg">
+                                        <div class="flex items-center">
+                                            <input id="evoHasPrueba" type="checkbox" class="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500 cursor-pointer" onchange="toggleEvoPruebaBox()">
+                                            <label for="evoHasPrueba" class="ml-2 text-sm font-bold text-purple-800 cursor-pointer">Aplicación de Pruebas</label>
+                                        </div>
+                                        <div id="evoPruebaBox" class="hidden mt-3 pt-3 border-t border-gray-100">
+                                            <label class="block text-xs font-semibold mb-1 text-purple-700">Nombre de la prueba y resultado</label>
+                                            <textarea id="evoPruebaResultados" rows="3" class="textarea-styled text-sm border-purple-200 focus:border-purple-500" placeholder="Escribe el nombre de la prueba aplicada y su resultado..."></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 p-4 bg-white border border-gray-200 rounded-lg">
                                         <label class="block text-sm font-bold mb-2 text-[#003366]">Método de Atención</label>
                                         <select id="evoMetodoAtencion" class="input-styled text-sm bg-white">
                                             <option value="">Selecciona un método...</option>
@@ -517,6 +528,10 @@
                 <div>
                     <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">Nota de Evolución / Encuadre</h4>
                     <div id="modalNota" class="text-gray-800 whitespace-pre-wrap bg-gray-50 p-4 rounded-lg border border-gray-100 text-[15px] leading-relaxed"></div>
+                </div>
+                <div id="modalPruebasContainer" class="hidden">
+                    <h4 class="text-sm font-bold text-purple-600 uppercase tracking-wider mb-2">Aplicación de Pruebas</h4>
+                    <div id="modalPruebas" class="text-purple-900 whitespace-pre-wrap bg-purple-50 p-4 rounded-lg border border-purple-100 text-[15px] leading-relaxed"></div>
                 </div>
                 <div id="modalMetodoContainer" class="hidden">
                     <h4 class="text-sm font-bold text-[#003366] uppercase tracking-wider mb-2">Método de Atención</h4>
@@ -741,6 +756,8 @@
                     pagado: document.getElementById('evoPagado').checked,
                     tarea: document.getElementById('evoTarea').value,
                     nota: document.getElementById('evoNota').value,
+                    hasPrueba: document.getElementById('evoHasPrueba').checked,
+                    pruebaResultados: document.getElementById('evoPruebaResultados').value,
                     metodoAtencion: document.getElementById('evoMetodoAtencion').value,
                     cierre: document.getElementById('evoCierre').value
                 };
@@ -807,6 +824,8 @@
                     if(data.pagado !== undefined) document.getElementById('evoPagado').checked = data.pagado;
                     if(data.tarea) document.getElementById('evoTarea').value = data.tarea;
                     if(data.nota) document.getElementById('evoNota').value = data.nota;
+                    if(data.hasPrueba !== undefined) { document.getElementById('evoHasPrueba').checked = data.hasPrueba; toggleEvoPruebaBox(); }
+                    if(data.pruebaResultados) document.getElementById('evoPruebaResultados').value = data.pruebaResultados;
                     if(data.metodoAtencion) document.getElementById('evoMetodoAtencion').value = data.metodoAtencion;
                     if(data.cierre) document.getElementById('evoCierre').value = data.cierre;
                     restoredItems.push('Bitácora/Evolución');
@@ -838,6 +857,12 @@
             const box = document.getElementById('boxDireccion');
             if (document.getElementById('citaPresencial').checked) { box.classList.remove('hidden'); } 
             else { box.classList.add('hidden'); }
+        }
+
+        function toggleEvoPruebaBox() {
+            const box = document.getElementById('evoPruebaBox');
+            if (document.getElementById('evoHasPrueba').checked) { box.classList.remove('hidden'); document.getElementById('evoPruebaResultados').required = true; } 
+            else { box.classList.add('hidden'); document.getElementById('evoPruebaResultados').required = false; document.getElementById('evoPruebaResultados').value = ''; }
         }
 
         async function fetchPatientData(id) {
@@ -1023,6 +1048,15 @@
             if (planTrabajo && planTrabajo.length > numSesiones) { proxTema = planTrabajo[numSesiones].tema || planTrabajo[numSesiones].objetivo || "Tema por definir en el plan"; } 
             else if (planTrabajo && planTrabajo.length > 0) { proxTema = planTrabajo[planTrabajo.length-1].tema || "Cierre de proceso"; }
 
+            let pruebasAplicadas = [];
+            evoluciones.forEach(evo => {
+                if (evo.hasPrueba && evo.pruebaResultados) {
+                    let nombrePrueba = evo.pruebaResultados.split('\n')[0].trim();
+                    if (nombrePrueba.length > 60) nombrePrueba = nombrePrueba.substring(0, 57) + '...';
+                    pruebasAplicadas.push(nombrePrueba);
+                }
+            });
+
             let texto = `Paciente de ${edadValue === 'N/A' ? 'edad múltiple/no especificada' : edadValue + ' años'}. Motivo de consulta principal: "${motivoCorto}".\n\n`;
 
             const sFis = document.getElementById('sintomasFisicos').value.trim(); const sMen = document.getElementById('sintomasMentales').value.trim(); const sEmo = document.getElementById('sintomasEmocionales').value.trim();
@@ -1030,6 +1064,10 @@
                 texto += `--- DIAGNÓSTICO GENERAL ---\n`;
                 if (sFis) texto += `• Síntomas físicos: ${sFis}\n`; if (sMen) texto += `• Síntomas mentales: ${sMen}\n`; if (sEmo) texto += `• Síntomas emocionales: ${sEmo}\n`;
                 texto += `\n`;
+            }
+
+            if (pruebasAplicadas.length > 0) {
+                texto += `--- EVALUACIÓN PSICOMÉTRICA ---\n`; texto += `A la fecha se han aplicado ${pruebasAplicadas.length} prueba(s):\n`; pruebasAplicadas.forEach(p => texto += `• ${p}\n`); texto += `\n`;
             }
 
             texto += `A la fecha ha completado ${numSesiones} sesión(es) de acompañamiento. Actualmente evolucionando hacia su próximo objetivo: ${proxTema}.`;
@@ -1335,6 +1373,9 @@
             document.getElementById('modalFecha').textContent = titleText;
             document.getElementById('modalNota').textContent = evo.nota;
 
+            if(evo.hasPrueba && evo.pruebaResultados) { document.getElementById('modalPruebasContainer').classList.remove('hidden'); document.getElementById('modalPruebas').textContent = evo.pruebaResultados; } 
+            else { document.getElementById('modalPruebasContainer').classList.add('hidden'); }
+
             if(evo.metodoAtencion) { document.getElementById('modalMetodoContainer').classList.remove('hidden'); document.getElementById('modalMetodo').textContent = evo.metodoAtencion; } 
             else { document.getElementById('modalMetodoContainer').classList.add('hidden'); }
 
@@ -1511,8 +1552,10 @@
             const tarea = document.getElementById('evoTarea').value;
             const cierre = document.getElementById('evoCierre').value;
             const metodoAtencion = document.getElementById('evoMetodoAtencion').value;
+            const hasPrueba = document.getElementById('evoHasPrueba').checked;
+            const pruebaResultados = document.getElementById('evoPruebaResultados').value;
 
-            const nuevaEvo = { id: Date.now().toString(), fecha, valor, pagado, nota, tarea, cierre, metodoAtencion, anexos: [], firmaPaciente: null, fechaFirmaPaciente: null };
+            const nuevaEvo = { id: Date.now().toString(), fecha, valor, pagado, nota, tarea, cierre, metodoAtencion, hasPrueba, pruebaResultados, anexos: [], firmaPaciente: null, fechaFirmaPaciente: null };
             evoluciones.push(nuevaEvo); renderTimeline();
 
             const btn = document.getElementById('btnSaveEvo');
@@ -1525,6 +1568,7 @@
                     document.getElementById('evolucionForm').reset(); 
                     document.getElementById('evoFecha').valueAsDate = new Date(); 
                     document.getElementById('evoPagado').checked = false;
+                    document.getElementById('evoHasPrueba').checked = false; toggleEvoPruebaBox();
                     btn.textContent = '¡Guardada!'; setTimeout(() => { btn.textContent = originalText; btn.disabled = false; }, 2000);
                     setTimeout(resizeAllTextareas, 50); 
                 }
